@@ -1,5 +1,6 @@
 from django.db import models
 from django.db.models import CharField, TextField, BooleanField, IntegerField
+from django.core import serializers
 
 
 class Auction(models.Model):
@@ -29,6 +30,7 @@ class Item(models.Model):
 
     def item_category_display(self):
         display_list = list(self.item_category.all())
+        #display_list = serializers.serialize("json", (self.item_category.all()))
         return display_list
 
     item_category_display.short_description = 'Categories'

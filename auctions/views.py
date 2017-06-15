@@ -1,3 +1,108 @@
 from django.shortcuts import render
 
 # Create your views here.
+from rest_framework import status
+from rest_framework import permissions
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.parsers import JSONParser
+from rest_framework.response import Response
+from auctions.serializers import AuctionSerializer, ItemSerializer, AuctionItemSerializer
+from auctions.models import Auction, Item
+
+
+@api_view(['GET', 'POST'])
+@permission_classes((permissions.AllowAny,))
+def auction_list(request, format=None):
+    if request.method == 'GET':
+        auction = Auction.objects.all()
+        serializer = AuctionSerializer(auction, many=True)
+        return Response(serializer.data)
+
+    elif request.method == 'POST':
+        data = JSONParser().parse(request)
+        serializer = AuctionSerializer(data=data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['GET', 'PUT', 'DELETE'])
+@permission_classes((permissions.AllowAny,))
+def auction_detail(request, pk, format=None):
+
+    try:
+        auction = Auction.objects.get(pk=pk)
+    except Auction.DoesNotExist:
+        return Response(status=404)
+
+    if request.method == 'GET':
+        serializer = AuctionSerializer(auction)
+        return Response(serializer.data)
+
+    elif request.method == 'PUT':
+        data = JSONParser().parse(request)
+        serializer = AuctionSerializer(auction, data=data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    elif request.method == 'DELETE':
+        auction.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+@api_view(['GET', 'POST'])
+@permission_classes((permissions.AllowAny,))
+def item_list(request, format=None):
+    if request.method == 'GET':
+        item = Item.objects.all()
+        serializer = ItemSerializer(item, many=True)
+        return Response(serializer.data)
+
+    elif request.method == 'POST':
+        data = JSONParser().parse(request)
+        serializer = ItemSerializer(data=data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['GET', 'PUT', 'DELETE'])
+@permission_classes((permissions.AllowAny,))
+def item_detail(request, pk, format=None):
+
+    try:
+        item = Item.objects.get(pk=pk)
+    except Auction.DoesNotExist:
+        return Response(status=404)
+
+    if request.method == 'GET':
+        serializer = ItemSerializer(item)
+        return Response(serializer.data)
+
+    elif request.method == 'PUT':
+        data = JSONParser().parse(request)
+        serializer = ItemSerializer(item, data=data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    elif request.method == 'DELETE':
+        item.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+@api_view(['GET'])
+@permission_classes((permissions.AllowAny,))
+def auction_item_list(request, id, format=None):
+    if request.method == 'GET':
+        auction_item = Item.objects.filter(auction_id=id).order_by('lot')
+        serializer = AuctionItemSerializer(auction_item, many=True)
+        return Response(serializer.data)
+
+
+
