@@ -16,18 +16,26 @@ Including another URLconf
 from django.conf.urls import url, include
 from django.contrib import admin
 from auctions.views import (
-    auction_list,
     auction_detail,
     item_list,
     item_detail,
-    auction_item_list,
+    auction_list,
+    auctioneer_detail,
+    auctioneer_list,
+    item_listing,
+    auction_listing
 )
 
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
+    url(r'^api/auctioneers/$', auctioneer_list),
+    url(r'^api/auctioneers/(?P<pk>[0-9]+)/$', auctioneer_detail),
     url(r'^api/auctions/$', auction_list),
     url(r'^api/auctions/(?P<pk>[0-9]+)/$', auction_detail),
-    url(r'^api/auction_items/(?P<id>[0-9]+)/$', auction_item_list),
+
+    url(r'^api/auction_listing/(?P<auction_id>[0-9]+)/$', auction_listing),
+    url(r'^api/item_listing/(?P<auction_id>[0-9]+)/$', item_listing),
+
     url(r'^api/items/$', item_list),
     url(r'^api/items/(?P<pk>[0-9]+)/$', item_detail),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),

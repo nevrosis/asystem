@@ -12,7 +12,7 @@ class MyUserChangeForm(UserChangeForm):
 @admin.register(User)
 class MyUserAdmin(UserAdmin):
     form = MyUserChangeForm
-    list_display = ('username', 'first_name', 'last_name', 'auctioneer', 'is_active', 'is_staff', 'is_superuser', )
+    list_display = ('username', 'first_name', 'last_name', 'auctioneer', 'is_active', 'is_staff', 'is_superuser',)
 
     fieldsets = UserAdmin.fieldsets + (
             (None, {'fields': ('auctioneer', 'note', 'birth_date', )}),

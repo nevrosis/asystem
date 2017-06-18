@@ -1,6 +1,5 @@
 from django.db import models
 from django.db.models import CharField, TextField, BooleanField, IntegerField
-from django.core import serializers
 
 
 class Auction(models.Model):
@@ -8,7 +7,8 @@ class Auction(models.Model):
     published = models.BooleanField(default=False, verbose_name='Published')
     created_date = models.DateTimeField(auto_now_add=True)
     modified_date = models.DateTimeField(auto_now=True)
-    auctioneer = models.ForeignKey("Auctioneer", on_delete=models.CASCADE, verbose_name='Auctioneer')
+    auctioneer = models.ForeignKey("Auctioneer", on_delete=models.CASCADE, verbose_name='Auctioneer',
+                                   related_name="auctioneer")
 
     def __str__(self):
         return self.name
@@ -25,15 +25,15 @@ class Item(models.Model):
     created_date = models.DateTimeField(auto_now_add=True)
     modified_date = models.DateTimeField(auto_now=True)
     auctioneer = models.ForeignKey("Auctioneer", on_delete=models.CASCADE, verbose_name='Auctioneer')
-    auction = models.ForeignKey("Auction", on_delete=models.CASCADE, blank=True, null=True, verbose_name='Auction')
-    item_category = models.ManyToManyField("ItemCategory")
+    auction = models.ForeignKey("Auction", on_delete=models.CASCADE, blank=True, null=True, verbose_name='Auction',
+                                related_name="items")
+    item_categories = models.ManyToManyField("ItemCategory", related_name="items")
 
-    def item_category_display(self):
-        display_list = list(self.item_category.all())
-        #display_list = serializers.serialize("json", (self.item_category.all()))
+    def item_categories_display(self):
+        display_list = list(self.item_categories.all())
         return display_list
 
-    item_category_display.short_description = 'Categories'
+    item_categories_display.short_description = 'Categories'
 
     def __str__(self):
         return self.name

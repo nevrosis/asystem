@@ -16,16 +16,22 @@ class AuctionAdmin(admin.ModelAdmin):
 
 
 class ItemAdmin(admin.ModelAdmin):
-    list_display = ('name', 'published', 'lot', 'run', 'auctioneer', 'auction', 'item_category_display',)
-    list_filter = ('auction', 'item_category', 'published',)
+    list_display = ('name', 'published', 'lot', 'run', 'auctioneer', 'auction', 'item_categories_display',)
+    list_filter = ('auction', 'item_categories', 'published',)
     fieldsets = (
         (None, {
             'fields': (('name', 'published'), ('lot', 'run'), 'auctioneer', 'auction',)
         }),
         ('Advanced options', {
-            'fields': ('item_category',)
+            'fields': ('item_categories',)
         }),
     )
+
+    #def get_queryset(self, request):
+    #    qs = super().get_queryset(request)
+    #        if request.user.is_superuser:
+    #            return qs
+    #    return qs.filter(user=request.user)
 
 
 class AuctioneerAdmin(admin.ModelAdmin):
@@ -39,8 +45,8 @@ class AuctioneerAdmin(admin.ModelAdmin):
 
     def get_queryset(self, request):
         qs = super().get_queryset(request)
-#        if request.user.is_superuser:
-#            return qs
+        if request.user.is_superuser:
+            return qs
         return qs.filter(user=request.user)
 
 
