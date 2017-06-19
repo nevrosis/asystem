@@ -15,6 +15,9 @@ Including another URLconf
 """
 from django.conf.urls import url, include
 from django.contrib import admin
+from auctions import views
+
+
 from auctions.views import (
     auction_detail,
     item_list,
@@ -27,6 +30,12 @@ from auctions.views import (
 )
 
 urlpatterns = [
+
+    url(r'^$', views.index, name='index'),
+    url(r'^auctions/', views.auctions, name='auctions'),
+    url(r'^auctioneer/', views.auctioneer, name='auctioneer'),
+    url(r'^items/', views.items, name='items'),
+
     url(r'^admin/', include(admin.site.urls)),
     url(r'^api/auctioneers/$', auctioneer_list),
     url(r'^api/auctioneers/(?P<pk>[0-9]+)/$', auctioneer_detail),

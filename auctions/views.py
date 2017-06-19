@@ -163,3 +163,17 @@ def auction_listing(request, auction_id):
         return Response(serializer.data)
 
 
+def index(request):
+    return render(request, 'index.html')
+
+
+def auctions(request):
+    return render(request, 'auctions.html')
+
+
+def auctioneer(request):
+    return render(request, 'auctioneer.html')
+
+
+def items(request):
+    return render(request, 'items.html')
