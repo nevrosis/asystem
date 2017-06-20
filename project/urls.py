@@ -17,7 +17,6 @@ from django.conf.urls import url, include
 from django.contrib import admin
 from auctions import views
 
-
 from auctions.views import (
     auction_detail,
     item_list,
@@ -26,15 +25,21 @@ from auctions.views import (
     auctioneer_detail,
     auctioneer_list,
     item_listing,
-    auction_listing
+    auction_listing,
 )
 
 urlpatterns = [
 
-    url(r'^$', views.index, name='index'),
-    url(r'^auctions/', views.auctions, name='auctions'),
-    url(r'^auctioneer/', views.auctioneer, name='auctioneer'),
-    url(r'^items/', views.items, name='items'),
+    url(r'^items/(?P<item_id>[0-9]+)', views.catalog_item, name='item'),
+    url(r'^items/', views.catalog_items, name='items'),
+
+    url(r'^$', views.catalog_index, name='index'),
+    url(r'^auctions/', views.catalog_auctions, name='auctions'),
+    url(r'^auctioneer/', views.catalog_auctioneer, name='auctioneer'),
+
+    url(r'^auctions/(?P<auction_id>[0-9]+)/items/(?P<item_id>[0-9]+)/$', views.catalog_auction_items, name='auction_items'),
+
+
 
     url(r'^admin/', include(admin.site.urls)),
     url(r'^api/auctioneers/$', auctioneer_list),

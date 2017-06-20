@@ -16,7 +16,7 @@ class AuctionAdmin(admin.ModelAdmin):
 
 
 class ItemAdmin(admin.ModelAdmin):
-    list_display = ('name', 'published', 'lot', 'run', 'auctioneer', 'auction', 'item_categories_display',)
+    list_display = ('name', 'published', 'lot', 'run', 'auctioneer', 'auction', 'item_categories_display', 'slug',)
     list_filter = ('auction', 'item_categories', 'published',)
     fieldsets = (
         (None, {

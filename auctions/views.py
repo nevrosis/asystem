@@ -11,9 +11,14 @@ from auctions.serializers import(
     ItemSerializer,
     ItemListingSerializer,
     AuctioneerSerializer,
-    AuctionListingSerializer
+    AuctionListingSerializer,
 )
-from auctions.models import Auction, Item, Auctioneer
+from auctions.models import(
+    Auction,
+    Item,
+    Auctioneer,
+    ItemCategory
+)
 
 
 @api_view(['GET', 'POST'])
@@ -163,17 +168,49 @@ def auction_listing(request, auction_id):
         return Response(serializer.data)
 
 
-def index(request):
-    return render(request, 'index.html')
+def catalog_index(request):
+    context = {
+        'show_carousel': True,
+    }
+    return render(request, 'index.html', context)
 
 
-def auctions(request):
-    return render(request, 'auctions.html')
+def catalog_auctions(request):
+    auctions = Auction.objects.all()
+    context = {
+        'auctions': auctions,
+    }
+    return render(request, 'auctions.html', context)
 
 
-def auctioneer(request):
+def catalog_auctioneer(request):
     return render(request, 'auctioneer.html')
 
 
-def items(request):
-    return render(request, 'items.html')
+def catalog_item(request, item_id):
+    item = Item.objects.get(pk=item_id)
+    context = {
+        'item': item,
+    }
+    return render(request, 'item.html', context)
+
+
+def catalog_items(request):
+    items = Item.objects.all()
+    item_categories = ItemCategory.objects.all().order_by('name')
+    context = {
+        'items': items,
+        'item_categories': item_categories
+    }
+    return render(request, 'items.html', context)
+
+
+def catalog_auction_items(request):
+    items = Item.objects.all()
+    context = {
+        'items': items,
+    }
+    return render(request, 'items.html', context)
+
+
+

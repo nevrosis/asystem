@@ -1,9 +1,14 @@
 from django.db import models
-from django.db.models import CharField, TextField, BooleanField, IntegerField
+from django.db.models import CharField, TextField, BooleanField, IntegerField, SlugField
+# from django.db.models.signals import pre_save
+# from django.utils.text import slugify
+# from uuslug import slugify
+from uuslug import uuslug
 
 
 class Auction(models.Model):
     name = CharField(max_length=255, verbose_name='Name')
+    slug = SlugField(max_length=255, unique=True)
     published = models.BooleanField(default=False, verbose_name='Published')
     created_date = models.DateTimeField(auto_now_add=True)
     modified_date = models.DateTimeField(auto_now=True)
@@ -13,12 +18,17 @@ class Auction(models.Model):
     def __str__(self):
         return self.name
 
+    def save(self, *args, **kwargs):
+        self.slug = uuslug(self.name, instance=self)
+        super(Auction, self).save(*args, **kwargs)
+
     class Meta:
         ordering = ('name',)
 
 
 class Item(models.Model):
     name = CharField(max_length=512, verbose_name='Name')
+    slug = SlugField(max_length=512, unique=True)
     lot = CharField(max_length=25, verbose_name='Lot Number')
     run = CharField(max_length=25, verbose_name='Run Number')
     published = models.BooleanField(default=False, verbose_name='Published')
@@ -38,26 +48,35 @@ class Item(models.Model):
     def __str__(self):
         return self.name
 
+    def save(self, *args, **kwargs):
+        self.slug = uuslug(self.name, instance=self)
+        super(Item, self).save(*args, **kwargs)
+
     class Meta:
         ordering = ('name',)
 
 
 class Auctioneer(models.Model):
     name = CharField(max_length=255, verbose_name='Name')
+    slug = SlugField(max_length=255, unique=True)
     active = models.BooleanField(default=False, verbose_name='Active')
     created_date = models.DateTimeField(auto_now_add=True)
     modified_date = models.DateTimeField(auto_now=True)
-#    user = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True, verbose_name='User')
-#    user = models.ManyToManyField(User)
+    #    user = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True, verbose_name='User')
+    #    user = models.ManyToManyField(User)
 
-#    def user_display(self):
-#        display_list = list(self.user.all())
-#        return display_list
+    #    def user_display(self):
+    #        display_list = list(self.user.all())
+    #        return display_list
 
-#    user_display.short_description = 'Users'
+    #    user_display.short_description = 'Users'
 
     def __str__(self):
         return self.name
+
+    def save(self, *args, **kwargs):
+        self.slug = uuslug(self.name, instance=self)
+        super(Auctioneer, self).save(*args, **kwargs)
 
     class Meta:
         ordering = ('name',)
@@ -65,14 +84,26 @@ class Auctioneer(models.Model):
 
 class ItemCategory(models.Model):
     name = CharField(max_length=64, verbose_name='Name')
+    slug = SlugField(max_length=64, unique=True)
     created_date = models.DateTimeField(auto_now_add=True)
     modified_date = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return self.name
 
+    def save(self, *args, **kwargs):
+        self.slug = uuslug(self.name, instance=self)
+        super(ItemCategory, self).save(*args, **kwargs)
+
     class Meta:
         ordering = ('name',)
 
-
-
+#
+# def pre_save_item_signal_receiver(sender, instance, *args, **kwargs):
+#    slug = slugify(instance.name)
+#    exists = Item.objects.filter(slug=slug).exists()
+#    if exists:
+#        slug = "%s-%s" %(slug, instance.id)
+#    instance.slug = slug
+#
+# pre_save.connect(pre_save_item_signal_receiver, sender=Item)

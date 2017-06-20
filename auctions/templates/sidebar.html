@@ -1,0 +1,17 @@
+<form>
+    <p></p>
+    <p class="text-uppercase font-weight-bold">Category</p>
+
+    {% for ic in item_categories %}
+    <fieldset class="form-group">
+        <label class="custom-control custom-checkbox">
+        <input type="checkbox" class="custom-control-input">
+        <span class="custom-control-indicator"></span>
+        <span class="custom-control-description">{{ ic.name }}</span>
+        </label>
+    </fieldset>
+    {% endfor %}
+
+    <button type="submit" class="btn btn-primary">Submit</button>
+
+</form>
