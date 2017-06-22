@@ -14,20 +14,17 @@
 
     {% if show_carousel %}{% include "carousel.html" %}{% endif %}
 
-    <div class="container">
-	<!-- Bootstrap Grid -->
-        <div class="content">
-    	    <div class="row" >
+    <div class="container-fluid">
 
-                <div class="col-2" id="sidebar">
-                    {% include 'sidebar.html' %}
-                </div>
-                <div class="col-10" id="content">
-                    {% block content %}
-                    {% endblock %}
-                </div>
+        <div class="row">
+
+            <div class="col-2" id="sidebar">
+                {% include 'sidebar.html' %}
             </div>
-
+            <div class="col-10" id="content">
+                {% block content %}
+                {% endblock %}
+            </div>
         </div>
 
     </div>

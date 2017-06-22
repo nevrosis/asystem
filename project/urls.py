@@ -1,57 +1,34 @@
-"""project URL Configuration
-
-The `urlpatterns` list routes URLs to views. For more information please see:
-    https://docs.djangoproject.com/en/1.11/topics/http/urls/
-Examples:
-Function views
-    1. Add an import:  from my_app import views
-    2. Add a URL to urlpatterns:  url(r'^$', views.home, name='home')
-Class-based views
-    1. Add an import:  from other_app.views import Home
-    2. Add a URL to urlpatterns:  url(r'^$', Home.as_view(), name='home')
-Including another URLconf
-    1. Import the include() function: from django.conf.urls import url, include
-    2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
-"""
 from django.conf.urls import url, include
 from django.contrib import admin
 from auctions import views
-
-from auctions.views import (
-    auction_detail,
-    item_list,
-    item_detail,
-    auction_list,
-    auctioneer_detail,
-    auctioneer_list,
-    item_listing,
-    auction_listing,
-)
+from auctions.api import urls as api_url
 
 urlpatterns = [
 
-    url(r'^items/(?P<item_id>[0-9]+)', views.catalog_item, name='item'),
+    url(r'^auctions/details/(?P<auction_id>[0-9]+)', views.catalog_auction_details, name='auction_details'),
+    # I need to slug HERE for the
+
+    # This URL will be for listing
+    #url(r'^auctions/(?P<auction_id>[0-9]+)', views.catalog_auction_items, name='auction_items'),
+
+    # this URL will be for the ITEMS inside a specific sale
+    #url(r'^auctions/(?P<auction_id>[0-9]+)/items/(?P<item_id>[0-9]+)/$', views.catalog_auction_items, name='auction_items'),
+
+    url(r'^auctions/', views.catalog_auctions, name='auctions'),
+
+    url(r'^items/(?P<item_id>[0-9]+)', views.catalog_item_details, name='item'),
     url(r'^items/', views.catalog_items, name='items'),
 
+    # url(r'^auctioneers/auctions/', views.catalog_auctioneers, name='auctioneers'),
+    url(r'^auctioneers/(?P<auctioneer_slug>[\w\-_]+)/auctions/$', views.catalog_auctioneers_auctions, name='catalog_auctioneers_auctions'),
+    url(r'^auctioneers/(?P<auctioneer_slug>[\w\-_]+)/details/$', views.catalog_auctioneers_details, name='catalog_auctioneers_details'),
+
+    url(r'^auctioneers/', views.catalog_auctioneers, name='auctioneers'),
+
     url(r'^$', views.catalog_index, name='index'),
-    url(r'^auctions/', views.catalog_auctions, name='auctions'),
-    url(r'^auctioneer/', views.catalog_auctioneer, name='auctioneer'),
 
-    url(r'^auctions/(?P<auction_id>[0-9]+)/items/(?P<item_id>[0-9]+)/$', views.catalog_auction_items, name='auction_items'),
-
-
-
+    url(r'^api/', include(api_url)),
     url(r'^admin/', include(admin.site.urls)),
-    url(r'^api/auctioneers/$', auctioneer_list),
-    url(r'^api/auctioneers/(?P<pk>[0-9]+)/$', auctioneer_detail),
-    url(r'^api/auctions/$', auction_list),
-    url(r'^api/auctions/(?P<pk>[0-9]+)/$', auction_detail),
-
-    url(r'^api/auction_listing/(?P<auction_id>[0-9]+)/$', auction_listing),
-    url(r'^api/item_listing/(?P<auction_id>[0-9]+)/$', item_listing),
-
-    url(r'^api/items/$', item_list),
-    url(r'^api/items/(?P<pk>[0-9]+)/$', item_detail),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
 
 ]

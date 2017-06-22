@@ -6,11 +6,14 @@ from auctions.models import Auctioneer
 
 
 class AuctionAdmin(admin.ModelAdmin):
-    list_display = ('name', 'published', 'auctioneer',)
+    list_display = ('name', 'published', 'auctioneer', 'terminated',)
     list_filter = ('auctioneer', )
     fieldsets = (
         ("General", {
             'fields': (('name', 'published'), 'auctioneer',)
+        }),
+        ("Auction Status", {
+            'fields': ('terminated', 'terminated_date',)
         }),
     )
 

@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block title %}Auctioneers{% endblock %}
+
+{% block content %}
+
+    Auctioneers {{ auctioneers|length }} <br>
+
+    <ul>
+    {% for auctioneer in auctioneers %}
+    <li>
+        {{ auctioneer.name }} |
+        <a href="/auctioneers/{{ auctioneer.slug }}/details/">Auctioneer Details</a> |
+        <a href="/auctioneers/{{ auctioneer.slug }}/auctions/">Current Auctions</a> |
+        <a href="/auctioneers/{{ auctioneer.slug }}/pastsales/">Past Auctions</a>
+    </li>
+    {% endfor %}
+    </ul>
+
+{% endblock %}

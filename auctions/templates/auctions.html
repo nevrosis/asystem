@@ -8,7 +8,12 @@
 
     <ul>
     {% for auction in auctions %}
-    <li><a href="/auctions/{{ auction.id }}">{{ auction.name }}</a></li>
+    <li>
+        {{ auction.name }} |
+        <a href="/auctions/{{ auction.slug }}/details/">Auction Details</a>  |
+        <a href="/auctions/{{ auction.slug }}/items/">Items Listing</a> |
+        <a href="/auctioneers/{{ auctioneer.slug }}/details/">Auctioneer Details</a>
+    </li>
     {% endfor %}
     </ul>
 

@@ -8,12 +8,14 @@ from uuslug import uuslug
 
 class Auction(models.Model):
     name = CharField(max_length=255, verbose_name='Name')
-    slug = SlugField(max_length=255, unique=True)
+    slug = SlugField(max_length=255, unique=True, db_index=True)
     published = models.BooleanField(default=False, verbose_name='Published')
     created_date = models.DateTimeField(auto_now_add=True)
     modified_date = models.DateTimeField(auto_now=True)
     auctioneer = models.ForeignKey("Auctioneer", on_delete=models.CASCADE, verbose_name='Auctioneer',
-                                   related_name="auctioneer")
+                                   related_name="auctions")
+    terminated = models.BooleanField(default=False, verbose_name='Terminated')
+    terminated_date = models.DateTimeField(blank=True, null=True, verbose_name='Date terminated')
 
     def __str__(self):
         return self.name
@@ -28,7 +30,7 @@ class Auction(models.Model):
 
 class Item(models.Model):
     name = CharField(max_length=512, verbose_name='Name')
-    slug = SlugField(max_length=512, unique=True)
+    slug = SlugField(max_length=512, unique=True, db_index=True)
     lot = CharField(max_length=25, verbose_name='Lot Number')
     run = CharField(max_length=25, verbose_name='Run Number')
     published = models.BooleanField(default=False, verbose_name='Published')
@@ -58,7 +60,7 @@ class Item(models.Model):
 
 class Auctioneer(models.Model):
     name = CharField(max_length=255, verbose_name='Name')
-    slug = SlugField(max_length=255, unique=True)
+    slug = SlugField(max_length=255, unique=True, db_index=True)
     active = models.BooleanField(default=False, verbose_name='Active')
     created_date = models.DateTimeField(auto_now_add=True)
     modified_date = models.DateTimeField(auto_now=True)
@@ -84,7 +86,7 @@ class Auctioneer(models.Model):
 
 class ItemCategory(models.Model):
     name = CharField(max_length=64, verbose_name='Name')
-    slug = SlugField(max_length=64, unique=True)
+    slug = SlugField(max_length=64, unique=True, db_index=True)
     created_date = models.DateTimeField(auto_now_add=True)
     modified_date = models.DateTimeField(auto_now=True)
 
