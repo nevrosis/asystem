@@ -9,7 +9,14 @@ from uuslug import uuslug
 class Auction(models.Model):
     name = CharField(max_length=255, verbose_name='Name')
     slug = SlugField(max_length=255, unique=True, db_index=True)
+    summary = CharField(max_length=512, blank=True, null=True, verbose_name='Summary')
+    description = TextField(blank=True, null=True, verbose_name='Description')
+    terms_and_conditions = TextField(blank=True, null=True, verbose_name='Terms and Conditions')
+    buyers_fees = TextField(blank=True, null=True, verbose_name="Buyer's fees")
+    off_site_terms_and_conditions = TextField(blank=True, null=True, verbose_name='Off Site terms and conditions')
     published = models.BooleanField(default=False, verbose_name='Published')
+    auction_start_date = models.DateTimeField(blank=True, null=True, verbose_name='Auction start date')
+    auction_end_date = models.DateTimeField(blank=True, null=True, verbose_name='Auction end date')
     created_date = models.DateTimeField(auto_now_add=True)
     modified_date = models.DateTimeField(auto_now=True)
     auctioneer = models.ForeignKey("Auctioneer", on_delete=models.CASCADE, verbose_name='Auctioneer',

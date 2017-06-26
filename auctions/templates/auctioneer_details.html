@@ -1,1 +1,15 @@
-{{ auctioneer.name }}
+{% extends 'base.html' %}
+
+{% block title %}{{ auctioneer.name }}{% endblock %}
+
+{% block jumbotron %}
+    <div class="jumbotron jumbotron-fluid">
+        <div class="container">
+            <h1 class="display-3">{{ auctioneer.name }}</h1>
+            <p class="lead"></p>
+        </div>
+    </div>
+{% endblock %}
+
+{% block content %}
+{% endblock %}

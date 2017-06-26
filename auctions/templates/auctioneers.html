@@ -2,6 +2,15 @@
 
 {% block title %}Auctioneers{% endblock %}
 
+{% block jumbotron %}
+    <div class="jumbotron jumbotron-fluid">
+        <div class="container">
+            <h1 class="display-3">Auctioneers Listing</h1>
+            <p class="lead">Feel free to browse the list of available auctioneers</p>
+        </div>
+    </div>
+{% endblock %}
+
 {% block content %}
 
     Auctioneers {{ auctioneers|length }} <br>

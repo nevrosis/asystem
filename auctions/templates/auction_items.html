@@ -5,7 +5,7 @@
 {% block jumbotron %}
     <div class="jumbotron jumbotron-fluid">
         <div class="container">
-            <h1 class="display-3">Available Items</h1>
+            <h1 class="display-3">{{ auction.name }}</h1>
             <p class="lead">Feel free to browse the list of available items</p>
         </div>
     </div>
@@ -13,7 +13,6 @@
 
 {% block content %}
 
-<!--
     <p><a href="/auctioneers/{{ auctioneer.slug }}/details/">Auctioneer Details</a></p>
     <p><a href="/auctions/{{ auction.slug }}/details/">Auction Details</a></p>
 
@@ -50,7 +49,7 @@
     </div>
 
     <br>
--->
+
 
     <!--Items {{ items|length }} <br>-->
     <div class="row justify-content-center align-items-center">
@@ -79,7 +78,7 @@
         <div class="card-columns">
             {% for item in items %}
             <div class="card">
-                <a href="/auctioneers/{{ item.auctioneer.slug }}/auctions/{{ item.auction.slug }}/items/{{ item.slug }}/"><img class="card-img-top img-fluid" src="https://images.giqauction.com/1067/standard/1435333.jpg" alt="{{ item.name }}"></a>
+                <a href="/auctioneers/{{ auctioneer.slug }}/auctions/{{ auction.slug }}/items/{{ item.slug }}/"><img class="card-img-top img-fluid" src="https://images.giqauction.com/1067/standard/1435333.jpg" alt="{{ item.name }}"></a>
                 <div class="card-block">
                     <h4 class="card-title"><a href="/auctioneers/{{ auctioneer.slug }}/auctions/{{ auction.slug }}/items/{{ item.slug }}/">{{ item.name }}</a></h4>
                     <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>

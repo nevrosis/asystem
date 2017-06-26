@@ -25,9 +25,23 @@
         </div>
       </li>-->
     </ul>
-      <form class="form-inline my-2 my-lg-0">
-      <input class="form-control mr-sm-2" type="text" placeholder="Search">
-      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+    <form class="form-inline">
+        <input class="form-control mr-sm-2" type="text" placeholder="Search">
+        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
     </form>
+    <ul class="nav justify-content-end">
+        {% if user.is_authenticated %}
+            <li class="nav-item">
+                <a class="nav-link" href="/admin/">{{ user.first_name }}</a>
+            </li>
+        {% else %}
+            <li class="nav-item">
+                <a class="nav-link" href="/Bidder-Registration-Form/">Become a bidder</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/admin/">Bidder login</a>
+            </li>
+        {% endif %}
+    </ul>
   </div>
 </nav>

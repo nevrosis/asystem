@@ -10,7 +10,19 @@ class AuctionAdmin(admin.ModelAdmin):
     list_filter = ('auctioneer', )
     fieldsets = (
         ("General", {
-            'fields': (('name', 'published'), 'auctioneer',)
+            'fields': ('published',)
+        }),
+        ("Auction name", {
+            'fields': ('name', 'auctioneer',)
+        }),
+        ("Auction Dates", {
+            'fields': ('auction_start_date', 'auction_end_date',)
+        }),
+        ("Auction Descriptions", {
+            'fields': ('summary', 'description',)
+        }),
+        ("Auction Rules", {
+            'fields': ('terms_and_conditions', 'buyers_fees', 'off_site_terms_and_conditions',)
         }),
         ("Auction Status", {
             'fields': ('terminated', 'terminated_date',)
