@@ -2,9 +2,12 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth import login, authenticate
 from django.views.generic import View
 from .bidder_registration_form import BidderRegistration
+from .auctioneer_registration_form import AuctioneerRegistration
+from django.core.validators import validate_email
+
 
 # Create your views here.
-from auctions.models import(
+from auctions.models import (
     Auction,
     Auctioneer,
     Item,
@@ -115,6 +118,31 @@ def catalog_auction_items(request, auction_id, item_id):
     return render(request, 'items.html', context)
 
 
+class AuctioneerRegistrationForm(View):
+    form_class = AuctioneerRegistration
+    template_name = 'auctioneer_registration_form.html'
+
+    def get(self, request):
+        form = self.form_class(None)
+        return render(request, self.template_name, {'form': form})
+
+    def post(self, request):
+        form = self.form_class(request.POST)
+
+        if form.is_valid():
+            auctioneer = form.save(commit=False)
+            auctioneer.name = form.cleaned_data['name']
+
+            try:
+                auctioneer.save()
+            except Exception as e:
+                return render(request, self.template_name, {'form': form, 'error': 'Email Already in Use.'})
+
+            return redirect('index')
+
+        return render(request, self.template_name, {'form': form, 'error': 'Error, please fill this form.'})
+
+
 class BidderRegistrationForm(View):
     form_class = BidderRegistration
     template_name = 'bidder_registration_form.html'
@@ -128,15 +156,30 @@ class BidderRegistrationForm(View):
 
         if form.is_valid():
             user = form.save(commit=False)
-            username = form.cleaned_data['username']
             password = form.cleaned_data['password']
-            user.set_password(password)
-            user.save()
+            email = form.cleaned_data['email']
 
-            user = authenticate(username=username, password=password)
+            try:
+                validate_email(email)
+                valid_email = True
+            except validate_email.ValidationError:
+                valid_email = False
+
+            if not valid_email:
+                return render(request, self.template_name, {'form': form, 'error': 'Invalid email address.'})
+
+            user.username = email
+            user.set_password(password)
+
+            try:
+                user.save()
+            except Exception as e:
+                return render(request, self.template_name, {'form': form, 'error': 'Email Already in Use.'})
+
+            user = authenticate(username=email, password=password)
             if user is not None:
                 if user.is_active:
                     login(request, user)
                     return redirect('index')
 
-        return render(request, self.template_name, {'form': form})
+        return render(request, self.template_name, {'form': form, 'error': 'Error, please fill this form.'})

@@ -3,27 +3,34 @@
 {% block title %}Auctioneers{% endblock %}
 
 {% block jumbotron %}
-    <div class="jumbotron jumbotron-fluid">
+    <div class="jumbotron jumbotron-fluid" id="jumbotron-auctioneers">
         <div class="container">
-            <h1 class="display-3">Auctioneers Listing</h1>
+            <h1 class="display-3">Auctioneers</h1>
             <p class="lead">Feel free to browse the list of available auctioneers</p>
+            <a href="/auctioneer-registration-form/" class="btn btn-primary">Become an auctioneer</a>
         </div>
     </div>
 {% endblock %}
 
 {% block content %}
 
-    Auctioneers {{ auctioneers|length }} <br>
+    <!--Auctioneers {{ auctioneers|length }} <br>-->
 
-    <ul>
     {% for auctioneer in auctioneers %}
-    <li>
-        {{ auctioneer.name }} |
-        <a href="/auctioneers/{{ auctioneer.slug }}/details/">Auctioneer Details</a> |
-        <a href="/auctioneers/{{ auctioneer.slug }}/auctions/">Current Auctions</a> |
-        <a href="/auctioneers/{{ auctioneer.slug }}/pastsales/">Past Auctions</a>
-    </li>
+        <div class="card text-center">
+            <div class="card-block">
+                <h4 class="card-title">{{ auctioneer.name }}</h4>
+
+                <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                <a href="#" class="btn btn-primary">Go somewhere</a>
+            </div>
+            <div class="card-footer text-muted">
+                <a href="/auctioneers/{{ auctioneer.slug }}/details/">Auctioneer Details</a> |
+                <a href="/auctioneers/{{ auctioneer.slug }}/auctions/">Current Auctions</a> |
+                <a href="/auctioneers/{{ auctioneer.slug }}/pastsales/">Past Auctions</a>
+            </div>
+        </div>
+        <br>
     {% endfor %}
-    </ul>
 
 {% endblock %}

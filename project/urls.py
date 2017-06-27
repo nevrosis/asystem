@@ -5,6 +5,7 @@ from auctions.api import urls as api_url
 
 urlpatterns = [
 
+    url(r'^Auctioneer-Registration-Form/$', views.AuctioneerRegistrationForm.as_view(), name='AuctioneerRegistrationForm'),
     url(r'^Bidder-Registration-Form/$', views.BidderRegistrationForm.as_view(), name='BidderRegistrationForm'),
 
     url(r'^auctions/details/(?P<auction_id>[0-9]+)', views.catalog_auction_details, name='auction_details'),

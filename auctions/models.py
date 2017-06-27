@@ -66,7 +66,7 @@ class Item(models.Model):
 
 
 class Auctioneer(models.Model):
-    name = CharField(max_length=255, verbose_name='Name')
+    name = CharField(max_length=255, verbose_name='Name', unique=True)
     slug = SlugField(max_length=255, unique=True, db_index=True)
     active = models.BooleanField(default=False, verbose_name='Active')
     created_date = models.DateTimeField(auto_now_add=True)

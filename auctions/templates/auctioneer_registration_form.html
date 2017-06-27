@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+
+{% block title %}Become a bidder{% endblock %}
+
+{% block jumbotron %}
+    <div class="jumbotron jumbotron-fluid" id="jumbotron-become-a-bidder">
+        <div class="container">
+            <h1 class="display-3">Become an Auctioneer</h1>
+
+            <p class="lead"></p>
+        </div>
+    </div>
+{% endblock %}
+
+{% block content %}
+
+    <div class="row">
+        <div class="col-4">
+            <div class="card">
+                <div class="card-header card-inverse" style="background-color: #333; border-color: #333;">
+                    Auctioneer Registration Details
+                </div>
+                <div class="card-block">
+                    <p>This is Sparta</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-8">
+
+            {% if error %}
+                <div class="alert alert-danger" role="alert">
+                    <strong>Error!</strong> {{ error }}.
+                </div>
+            {% endif %}
+
+            <form action="" method="post">
+                {% csrf_token %}
+                <input type="hidden" name="username" id="username" value="thisissparta">
+
+                <div class="card">
+                    <div class="card-header card-inverse" style="background-color: #333; border-color: #333;">
+                        Auctioneer Information
+                    </div>
+                    <div class="card-block">
+                        <div class="form-group">
+                            <label for="name">Name</label>
+                            <input type="text" class="form-control" name="name" id="name" placeholder="Name" required>
+                        </div>
+                    </div>
+                </div>
+
+                <br>
+
+                <input type="submit" class="btn btn-primary" value="Register">
+            </form>
+        </div>
+    </div>
+    <br>
+{% endblock %}
