@@ -7,6 +7,9 @@ User = get_user_model()
 class BidderRegistration(forms.ModelForm):
     password = forms.CharField(widget=forms.PasswordInput)
 
+    def clean(self):
+        pass
+
     class Meta:
         model = User
         fields = ['username', 'email', 'password', ]

@@ -6,22 +6,20 @@ body{
     margin-top: 56px;
 }
 
+#content{
+    min-height: 25vh;
+}
+
 #jumbotron-auctioneers{
-    background-image: url('/static/base/img/auctioneers.jpg');
-    background-attachment: fixed;
-    background-position: top;
+    background: url('/static/base/img/auctioneers.jpg') fixed top;
 }
 
 #jumbotron-auctions{
-    background-image: url('/static/base/img/auctions.jpg');
-    background-attachment: fixed;
-    background-position: top;
+    background: url('/static/base/img/auctions.jpg') fixed top;
 }
 
 #jumbotron-become-a-bidder{
-    background-image: url('/static/base/img/become-a-bidder.jpg');
-    background-attachment: fixed;
-    background-position: top;
+    background: url('/static/base/img/become-a-bidder.jpg') fixed top;
 }
 
 

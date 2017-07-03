@@ -1,12 +1,8 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth import login, authenticate
 from django.views.generic import View
-from .bidder_registration_form import BidderRegistration
-from .auctioneer_registration_form import AuctioneerRegistration
-from django.core.validators import validate_email
+from .forms import AuctioneerRegistration, BidderRegistration
 
-
-# Create your views here.
 from auctions.models import (
     Auction,
     Auctioneer,
@@ -39,7 +35,7 @@ def catalog_auction_details(request, auction_id):
 
 
 def catalog_auctioneers(request):
-    auctioneers = Auctioneer.objects.all()
+    auctioneers = Auctioneer.objects.filter(activated=True).order_by('name')
     context = {
         'auctioneers': auctioneers,
     }
@@ -92,6 +88,14 @@ def catalog_auctioneers_auctions_items_details(request, auctioneer_slug, auction
     return render(request, 'item_details.html', context)
 
 
+def catalog_categories(request):
+    item_categories = ItemCategory.objects.all
+    context = {
+        'item_categories': item_categories,
+    }
+    return render(request, 'categories.html', context)
+
+
 def catalog_item_details(request, item_id):
     item = Item.objects.get(pk=item_id)
     context = {
@@ -101,13 +105,21 @@ def catalog_item_details(request, item_id):
 
 
 def catalog_items(request):
-    items = Item.objects.all()
-    item_categories = ItemCategory.objects.all().order_by('name')
+    items = Item.objects.filter(published=True).order_by('run').order_by('lot').order_by('name')
+    # item_categories = ItemCategory.objects.all().order_by('name')
     context = {
         'items': items,
-        'item_categories': item_categories
+        # 'item_categories': item_categories
     }
     return render(request, 'items.html', context)
+
+
+def catalog_search(request, criteria):
+    items = Item.objects.filter(name__contains=criteria)
+    context = {
+        'items': items
+    }
+    return render(request, 'search.html', context)
 
 
 def catalog_auction_items(request, auction_id, item_id):
@@ -138,9 +150,16 @@ class AuctioneerRegistrationForm(View):
             except Exception as e:
                 return render(request, self.template_name, {'form': form, 'error': 'Email Already in Use.'})
 
-            return redirect('index')
+            return redirect('AuctioneerRegistrationCompleted')
 
-        return render(request, self.template_name, {'form': form, 'error': 'Error, please fill this form.'})
+        return render(request, self.template_name, {'form': form, 'error': 'Please fill this form.'})
+
+
+class AuctioneerRegistrationCompleted(View):
+    template_name = 'auctioneer_registration_completed.html'
+
+    def get(self, request):
+        return render(request, self.template_name)
 
 
 class BidderRegistrationForm(View):
@@ -159,22 +178,22 @@ class BidderRegistrationForm(View):
             password = form.cleaned_data['password']
             email = form.cleaned_data['email']
 
-            try:
-                validate_email(email)
-                valid_email = True
-            except validate_email.ValidationError:
-                valid_email = False
-
-            if not valid_email:
-                return render(request, self.template_name, {'form': form, 'error': 'Invalid email address.'})
+            # try:
+            #     validate_email(email)
+            #     valid_email = True
+            # except validate_email.ValidationError:
+            #     valid_email = False
+            #
+            # if not valid_email:
+            #     return render(request, self.template_name, {'form': form, 'error': 'Invalid email address.'})
 
             user.username = email
             user.set_password(password)
 
-            try:
-                user.save()
-            except Exception as e:
-                return render(request, self.template_name, {'form': form, 'error': 'Email Already in Use.'})
+            # try:
+            #     user.save()
+            # except Exception as e:
+            #     return render(request, self.template_name, {'form': form, 'error': 'Email Already in Use.'})
 
             user = authenticate(username=email, password=password)
             if user is not None:
@@ -182,4 +201,4 @@ class BidderRegistrationForm(View):
                     login(request, user)
                     return redirect('index')
 
-        return render(request, self.template_name, {'form': form, 'error': 'Error, please fill this form.'})
+        return render(request, self.template_name, {'form': form, 'Error': 'please fill this form.'})

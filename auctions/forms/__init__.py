@@ -1,0 +1,2 @@
+from .auctioneer_registration_form import AuctioneerRegistration
+from .bidder_registration_form import BidderRegistration

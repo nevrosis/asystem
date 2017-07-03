@@ -86,7 +86,9 @@
                     <p class="card-text"><button type="submit" class="btn btn-primary">Bid $5000</button></p>
                 </div>
                 <div class="card-footer">
-                    <small class="text-muted">Category</small>
+                    <small class="text-muted">{% for cat in item.item_categories_query %}
+                        <a href="/categories/{{ cat.slug }}/">{{ cat.name }}</a>
+                    {% endfor %}</small>
                 </div>
             </div>
             {% endfor %}

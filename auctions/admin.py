@@ -50,11 +50,11 @@ class ItemAdmin(admin.ModelAdmin):
 
 
 class AuctioneerAdmin(admin.ModelAdmin):
-    list_display = ('name', 'id', 'active', )
-    list_filter = ('active', )
+    list_display = ('name', 'id', 'activated', )
+    list_filter = ('activated', )
     fieldsets = (
         ("General", {
-            'fields': (('name', 'active'), )
+            'fields': (('name', 'activated'), 'motto')
         }),
     )
 

@@ -49,10 +49,15 @@ class Item(models.Model):
     item_categories = models.ManyToManyField("ItemCategory", related_name="items")
 
     def item_categories_display(self):
-        display_list = list(self.item_categories.all())
+        display_list = list(self.item_categories.all().order_by('name'))
         return display_list
 
     item_categories_display.short_description = 'Categories'
+
+    def item_categories_query(self):
+        display_query_set = self.item_categories.all().order_by('name')
+        return display_query_set
+
 
     def __str__(self):
         return self.name
@@ -68,7 +73,8 @@ class Item(models.Model):
 class Auctioneer(models.Model):
     name = CharField(max_length=255, verbose_name='Name', unique=True)
     slug = SlugField(max_length=255, unique=True, db_index=True)
-    active = models.BooleanField(default=False, verbose_name='Active')
+    motto = CharField(max_length=255, blank=True, null=True)
+    activated = models.BooleanField(default=False, verbose_name='Activated')
     created_date = models.DateTimeField(auto_now_add=True)
     modified_date = models.DateTimeField(auto_now=True)
     #    user = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True, verbose_name='User')

@@ -7,7 +7,7 @@
         <div class="container">
             <h1 class="display-3">Become an Auctioneer</h1>
 
-            <p class="lead"></p>
+            <p class="lead">Auctioneers can sell items on this website.</p>
         </div>
     </div>
 {% endblock %}
@@ -21,7 +21,7 @@
                     Auctioneer Registration Details
                 </div>
                 <div class="card-block">
-                    <p>This is Sparta</p>
+                    <p>Auctioneers can sell items on this website.</p>
                 </div>
             </div>
         </div>
@@ -35,17 +35,19 @@
 
             <form action="" method="post">
                 {% csrf_token %}
-                <input type="hidden" name="username" id="username" value="thisissparta">
-
                 <div class="card">
                     <div class="card-header card-inverse" style="background-color: #333; border-color: #333;">
                         Auctioneer Information
                     </div>
                     <div class="card-block">
                         <div class="form-group">
-                            <label for="name">Name</label>
+{#                            <label for="{{ form.name.id_for_label }}">Name:</label>#}
+{#                            {{ form.name }}#}
                             <input type="text" class="form-control" name="name" id="name" placeholder="Name" required>
                         </div>
+                        {% if form.name.errors %}
+                            <div class="alert alert-danger" role="alert">{{ form.name.errors }}</div>
+                        {% endif %}
                     </div>
                 </div>
 

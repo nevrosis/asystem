@@ -20,13 +20,11 @@
         <div class="card text-center">
             <div class="card-block">
                 <h4 class="card-title">{{ auctioneer.name }}</h4>
-
-                <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                <a href="#" class="btn btn-primary">Go somewhere</a>
+                <p class="card-text">{% if auctioneer.motto %}{{ auctioneer.motto|title }}{% else %}&nbsp;{% endif %}</p>
+                <a href="/auctioneers/{{ auctioneer.slug }}/auctions/" class="btn btn-primary">Current Auctions</a>
             </div>
             <div class="card-footer text-muted">
                 <a href="/auctioneers/{{ auctioneer.slug }}/details/">Auctioneer Details</a> |
-                <a href="/auctioneers/{{ auctioneer.slug }}/auctions/">Current Auctions</a> |
                 <a href="/auctioneers/{{ auctioneer.slug }}/pastsales/">Past Auctions</a>
             </div>
         </div>
