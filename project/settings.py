@@ -42,7 +42,7 @@ INSTALLED_APPS = [
     'auctions',
     'accounts',
     'tasks',
-    'django_cleanup',
+    # 'django_cleanup',
 ]
 
 

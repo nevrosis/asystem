@@ -7,6 +7,7 @@ click==6.7
 dj-database-url==0.4.2
 dj-static==0.0.6
 Django==1.11.1
+django-cleanup==1.0.0
 django-storages==1.6.3
 django-uuslug==1.1.8
 djangorestframework==3.6.3
