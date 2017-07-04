@@ -122,3 +122,17 @@ class ItemCategory(models.Model):
 #    instance.slug = slug
 #
 # pre_save.connect(pre_save_item_signal_receiver, sender=Item)
+
+
+class ItemPicture(models.Model):
+    name = CharField(max_length=256, verbose_name='Name')
+    primary = BooleanField(default=False)
+    order = IntegerField(default=0)
+    created_date = models.DateTimeField(auto_now_add=True)
+    modified_date = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        ordering = ('name',)

@@ -3,6 +3,7 @@ from auctions.models import Auction
 from auctions.models import ItemCategory
 from auctions.models import Item
 from auctions.models import Auctioneer
+from auctions.models import ItemPicture
 
 
 class AuctionAdmin(admin.ModelAdmin):
@@ -75,7 +76,18 @@ class ItemCategoryAdmin(admin.ModelAdmin):
     )
 
 
+class ItemPictureAdmin(admin.ModelAdmin):
+    list_display = ('name', 'primary', 'order')
+    list_filter = ('name', )
+    fieldsets = (
+        ("General", {
+            'fields': ('name', 'primary', 'order')
+        }),
+    )
+
+
 admin.site.register(Auction, AuctionAdmin)
 admin.site.register(Item, ItemAdmin)
 admin.site.register(Auctioneer, AuctioneerAdmin)
 admin.site.register(ItemCategory, ItemCategoryAdmin)
+admin.site.register(ItemPicture, ItemPictureAdmin)
