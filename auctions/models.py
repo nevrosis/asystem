@@ -1,5 +1,5 @@
 from django.db import models
-from django.db.models import CharField, TextField, BooleanField, IntegerField, SlugField
+from django.db.models import CharField, TextField, BooleanField, IntegerField, SlugField, ImageField
 # from django.db.models.signals import pre_save
 # from django.utils.text import slugify
 # from uuslug import slugify
@@ -128,6 +128,7 @@ class ItemPicture(models.Model):
     name = CharField(max_length=256, verbose_name='Name')
     primary = BooleanField(default=False)
     order = IntegerField(default=0)
+    picture = ImageField(blank=True, null=True, verbose_name='Picture')
     created_date = models.DateTimeField(auto_now_add=True)
     modified_date = models.DateTimeField(auto_now=True)
 

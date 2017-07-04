@@ -81,7 +81,7 @@ class ItemPictureAdmin(admin.ModelAdmin):
     list_filter = ('name', )
     fieldsets = (
         ("General", {
-            'fields': ('name', 'primary', 'order')
+            'fields': ('name', 'primary', 'order', 'picture')
         }),
     )
 

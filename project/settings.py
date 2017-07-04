@@ -41,7 +41,8 @@ INSTALLED_APPS = [
     'storages',
     'auctions',
     'accounts',
-    'tasks'
+    'tasks',
+    'django_cleanup',
 ]
 
 
@@ -143,10 +144,29 @@ USE_I18N = True
 USE_L10N = True
 USE_TZ = True
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
 AUTH_USER_MODEL = 'accounts.User'
+
+# django-storages
+# pip install django-storages
+# http://django-storages.readthedocs.io/en/latest/backends/amazon-S3.html
+# DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+# STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+# AWS_ACCESS_KEY_ID = 'YOUR_KEY'
+# AWS_SECRET_ACCESS_KEY = 'YOUR_SECRET'
+# AWS_STORAGE_BUCKET_NAME = 'BUCK'
+
+# boto3
+# pip install boto3
+# https://github.com/boto/boto3
+# aws_access_key_id = YOUR_KEY
+# aws_secret_access_key = YOUR_SECRET
+# region=us-east-1

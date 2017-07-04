@@ -2,6 +2,8 @@ from django.conf.urls import url, include
 from django.contrib import admin
 from auctions import views
 from auctions.api import urls as api_url
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
 
@@ -32,3 +34,7 @@ urlpatterns = [
     url(r'^$', views.catalog_index, name='index'),
 
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
