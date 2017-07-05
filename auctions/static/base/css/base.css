@@ -1,27 +1,44 @@
-*{
+* {
     font-family: 'Fira Sans', sans-serif;
 }
 
-body{
-    margin-top: 56px;
+html, body {
+    height: 100%;
 }
 
-#content{
+body {
+    margin-top: 54px;
+}
+
+#content {
     min-height: 25vh;
 }
 
-#jumbotron-auctioneers{
-    background: url('/static/base/img/auctioneers.jpg') fixed top;
+#jumbotron-auctioneers {
+    background: url('/static/base/img/header/auctioneers.jpg') fixed top;
 }
 
-#jumbotron-auctions{
-    background: url('/static/base/img/auctions.jpg') fixed top;
+#jumbotron-auctions {
+    background: url('/static/base/img/header/auctions.jpg') fixed top;
 }
 
-#jumbotron-become-a-bidder{
-    background: url('/static/base/img/become-a-bidder.jpg') fixed top;
+#jumbotron-become-a-bidder {
+    background: url('/static/base/img/header/become-a-bidder.jpg') fixed top;
 }
 
+#indexfullsreen {
+    height: 100%;
+    background-image: url('/static/base/img/index/indexLogo.jpg');
+    background-position: center center;
+    background-repeat: no-repeat;
+    /*background-attachment: fixed;*/
+    background-size: cover;
+    background-color: #999;
+}
+
+.card-block {
+    width: 100% !important;
+}
 
 /*
 @media (min-width: 576px) {

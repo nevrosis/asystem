@@ -2,6 +2,8 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth import login, authenticate
 from django.views.generic import View
 from .forms import AuctioneerRegistration, BidderRegistration
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+
 
 from auctions.models import (
     Auction,
@@ -105,11 +107,20 @@ def catalog_item_details(request, item_id):
 
 
 def catalog_items(request):
-    items = Item.objects.filter(published=True).order_by('run').order_by('lot').order_by('name')
-    # item_categories = ItemCategory.objects.all().order_by('name')
+    items_list = Item.objects.filter(published=True).order_by('run').order_by('lot').order_by('name')
+
+    paginator = Paginator(items_list, 3)
+    page = request.GET.get('page')
+
+    try:
+        items = paginator.page(page)
+    except PageNotAnInteger:
+        items = paginator.page(1)
+    except EmptyPage:
+        items = paginator.page(paginator.num_pages)
+
     context = {
         'items': items,
-        # 'item_categories': item_categories
     }
     return render(request, 'items.html', context)
 

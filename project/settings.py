@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'accounts',
     'tasks',
     'django_cleanup',
+    'captcha',
 ]
 
 
@@ -170,3 +171,10 @@ AUTH_USER_MODEL = 'accounts.User'
 # aws_access_key_id = YOUR_KEY
 # aws_secret_access_key = YOUR_SECRET
 # region=us-east-1
+
+
+# https://github.com/praekelt/django-recaptcha
+# pip install django-recaptcha
+RECAPTCHA_PUBLIC_KEY = '6LeTDigUAAAAAB1ETqVH8bpbPsn52LXPNU03dkHQ'
+RECAPTCHA_PRIVATE_KEY = '6LeTDigUAAAAAPL_PbQCqhr7BONjrog5A1W_XD-p'
+NOCAPTCHA = True

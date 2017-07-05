@@ -6,6 +6,7 @@
     <div class="jumbotron jumbotron-fluid">
         <div class="container">
             <h1 class="display-3">Available Items</h1>
+
             <p class="lead">Feel free to browse the list of available items</p>
         </div>
     </div>
@@ -13,7 +14,7 @@
 
 {% block content %}
 
-<!--
+    <!--
     <p><a href="/auctioneers/{{ auctioneer.slug }}/details/">Auctioneer Details</a></p>
     <p><a href="/auctions/{{ auction.slug }}/details/">Auction Details</a></p>
 
@@ -55,42 +56,55 @@
     <!--Items {{ items|length }} <br>-->
     <div class="row justify-content-center align-items-center">
         <nav aria-label="Page navigation">
-          <ul class="pagination">
-            <li class="page-item">
-              <a class="page-link" href="#" aria-label="Previous">
-                <span aria-hidden="true">&laquo;</span>
-                <span class="sr-only">Previous</span>
-              </a>
-            </li>
-            <li class="page-item"><a class="page-link" href="#">1</a></li>
-            <li class="page-item"><a class="page-link" href="#">2</a></li>
-            <li class="page-item"><a class="page-link" href="#">3</a></li>
-            <li class="page-item"><a class="page-link" href="#">4</a></li>
-            <li class="page-item">
-              <a class="page-link" href="#" aria-label="Next">
-                <span aria-hidden="true">&raquo;</span>
-                <span class="sr-only">Next</span>
-              </a>
-            </li>
-          </ul>
+            <ul class="pagination">
+                <li class="page-item">
+                    {% if items.has_previous %}
+                        <a class="page-link" href="?page={{ items.previous_page_number }}" aria-label="Previous">
+                            <span aria-hidden="true">&laquo;</span>
+                            <span class="sr-only">Previous</span>
+                        </a>
+                    {% endif %}
+                </li>
+                {% for page in items.paginator.page_range %}
+                <li class="page-item {% if page == items.number %}active{% endif %}"><a class="page-link" href="?page={{ page }}">{{ page }}</a></li>
+                {% endfor %}
+                <li class="page-item">
+                    {% if items.has_next %}
+                        <a class="page-link" href="?page={{ items.next_page_number }}" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                        <span class="sr-only">Next</span>
+                    {% endif %}
+                    </a>
+                </li>
+            </ul>
         </nav>
     </div>
     <div class=row">
         <div class="card-columns">
             {% for item in items %}
-            <div class="card">
-                <a href="/auctioneers/{{ item.auctioneer.slug }}/auctions/{{ item.auction.slug }}/items/{{ item.slug }}/"><img class="card-img-top img-fluid" src="https://images.giqauction.com/1067/standard/1435333.jpg" alt="{{ item.name }}"></a>
-                <div class="card-block">
-                    <h4 class="card-title"><a href="/auctioneers/{{ auctioneer.slug }}/auctions/{{ auction.slug }}/items/{{ item.slug }}/">{{ item.name }}</a></h4>
-                    <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                    <p class="card-text"><button type="submit" class="btn btn-primary">Bid $5000</button></p>
+                <div class="card">
+                    <a href="/auctioneers/{{ item.auctioneer.slug }}/auctions/{{ item.auction.slug }}/items/{{ item.slug }}/"><img
+                            class="card-img-top img-fluid" src="https://images.giqauction.com/1067/standard/1435333.jpg"
+                            alt="{{ item.name }}"></a>
+
+                    <div class="card-block">
+                        <h4 class="card-title"><a
+                                href="/auctioneers/{{ auctioneer.slug }}/auctions/{{ auction.slug }}/items/{{ item.slug }}/">{{ item.name }}</a>
+                        </h4>
+
+                        <p class="card-text">This is a longer card with supporting text below as a natural lead-in to
+                            additional content. This content is a little bit longer.</p>
+
+                        <p class="card-text">
+                            <button type="submit" class="btn btn-primary">Bid $5000</button>
+                        </p>
+                    </div>
+                    <div class="card-footer">
+                        <small class="text-muted">{% for cat in item.item_categories_query %}
+                            <a href="/categories/{{ cat.slug }}/">{{ cat.name }}</a>
+                        {% endfor %}</small>
+                    </div>
                 </div>
-                <div class="card-footer">
-                    <small class="text-muted">{% for cat in item.item_categories_query %}
-                        <a href="/categories/{{ cat.slug }}/">{{ cat.name }}</a>
-                    {% endfor %}</small>
-                </div>
-            </div>
             {% endfor %}
         </div>
     </div>
