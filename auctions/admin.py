@@ -5,6 +5,13 @@ from auctions.models import Item
 from auctions.models import Auctioneer
 from auctions.models import ItemPicture
 
+admin.site.site_header = 'asystem admin'
+
+
+class ItemPictureTabularInlineAdmin(admin.TabularInline):
+    model = ItemPicture
+    extra = 1
+
 
 class AuctionAdmin(admin.ModelAdmin):
     list_display = ('name', 'published', 'auctioneer', 'terminated',)
@@ -32,8 +39,10 @@ class AuctionAdmin(admin.ModelAdmin):
 
 
 class ItemAdmin(admin.ModelAdmin):
-    list_display = ('name', 'published', 'lot', 'run', 'auctioneer', 'auction', 'item_categories_display', 'slug',)
+    list_display = ('name', 'published', 'lot', 'run', 'auctioneer', 'auction', 'item_categories_display', 'item_picture_count',)
     list_filter = ('auction', 'item_categories', 'published',)
+    list_editable = ('published', 'lot', 'run',)
+    inlines = [ItemPictureTabularInlineAdmin]
     fieldsets = (
         (None, {
             'fields': (('name', 'published'), ('lot', 'run'), 'auctioneer', 'auction',)
@@ -53,6 +62,7 @@ class ItemAdmin(admin.ModelAdmin):
 class AuctioneerAdmin(admin.ModelAdmin):
     list_display = ('name', 'id', 'activated', )
     list_filter = ('activated', )
+    list_editable = ('activated',)
     fieldsets = (
         ("General", {
             'fields': (('name', 'activated'), 'motto')
@@ -68,7 +78,6 @@ class AuctioneerAdmin(admin.ModelAdmin):
 
 class ItemCategoryAdmin(admin.ModelAdmin):
     list_display = ('name', )
-    list_filter = ('name', )
     fieldsets = (
         ("General", {
             'fields': ('name',)
@@ -77,11 +86,11 @@ class ItemCategoryAdmin(admin.ModelAdmin):
 
 
 class ItemPictureAdmin(admin.ModelAdmin):
-    list_display = ('name', 'primary', 'order')
+    list_display = ('name', 'primary', 'order', 'item')
     list_filter = ('name', )
     fieldsets = (
         ("General", {
-            'fields': ('name', 'primary', 'order', 'picture')
+            'fields': ('name', 'item', 'primary', 'order', 'picture')
         }),
     )
 

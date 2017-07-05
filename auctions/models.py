@@ -58,6 +58,11 @@ class Item(models.Model):
         display_query_set = self.item_categories.all().order_by('name')
         return display_query_set
 
+    def item_picture_count(self):
+        count = self.item_pictures.all().count()
+        return count
+
+    item_picture_count.short_description = 'Pic'
 
     def __str__(self):
         return self.name
@@ -67,7 +72,7 @@ class Item(models.Model):
         super(Item, self).save(*args, **kwargs)
 
     class Meta:
-        ordering = ('name',)
+        ordering = ('lot', 'run', 'name')
 
 
 class Auctioneer(models.Model):
@@ -125,15 +130,16 @@ class ItemCategory(models.Model):
 
 
 class ItemPicture(models.Model):
-    name = CharField(max_length=256, verbose_name='Name')
+    name = CharField(max_length=256, verbose_name='Name', blank=True, null=True, default=" ")
     primary = BooleanField(default=False)
     order = IntegerField(default=0)
     picture = ImageField(blank=True, null=True, verbose_name='Picture')
     created_date = models.DateTimeField(auto_now_add=True)
     modified_date = models.DateTimeField(auto_now=True)
+    item = models.ForeignKey("Item", on_delete=models.CASCADE, blank=True, null=True, verbose_name='Item', related_name="item_pictures")
 
-    def __str__(self):
-        return self.name
+    # def __str__(self):
+    #     return self.name
 
     class Meta:
-        ordering = ('name',)
+        ordering = ('-primary', 'order')
