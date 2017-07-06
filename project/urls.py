@@ -5,7 +5,11 @@ from auctions.api import urls as api_url
 from django.conf import settings
 from django.conf.urls.static import static
 
+
+import debug_toolbar
 urlpatterns = [
+
+    url(r'^__debug__/', include(debug_toolbar.urls)),
 
     url(r'^auctioneer-registration-completed/$', views.AuctioneerRegistrationCompleted.as_view(), name='AuctioneerRegistrationCompleted'),
     url(r'^auctioneer-registration-form/$', views.AuctioneerRegistrationForm.as_view(), name='AuctioneerRegistrationForm'),

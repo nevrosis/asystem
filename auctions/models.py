@@ -59,8 +59,8 @@ class Item(models.Model):
         return display_query_set
 
     def item_picture_count(self):
-        count = self.item_pictures.all().count()
-        return count
+        pic_count = self.item_pictures.all().count()
+        return pic_count
 
     item_picture_count.short_description = 'Pic'
 
@@ -140,6 +140,8 @@ class ItemPicture(models.Model):
 
     # def __str__(self):
     #     return self.name
+    def test(self):
+        return "test"
 
     class Meta:
         ordering = ('-primary', 'order')

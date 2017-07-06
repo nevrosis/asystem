@@ -36,7 +36,7 @@ class Task(models.Model):
     created_date = models.DateTimeField(auto_now_add=True, blank=True, null=True,)
     modified_date = models.DateTimeField(auto_now=True, blank=True, null=True,)
     status = models.ForeignKey(Status, on_delete=models.CASCADE, verbose_name='Status', blank=True, null=True,)
-    level = models.ForeignKey(Level, on_delete=models.CASCADE, verbose_name='Status', blank=True, null=True,)
+    level = models.ForeignKey(Level, on_delete=models.CASCADE, verbose_name='level', blank=True, null=True,)
     user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='User')
 
     def __str__(self):

@@ -26,7 +26,6 @@ DEBUG = config('DEBUG', default=False, cast=bool)
 
 ALLOWED_HOSTS = ['asystem.herokuapp.com', '127.0.0.1']
 
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -44,6 +43,7 @@ INSTALLED_APPS = [
     'tasks',
     'django_cleanup',
     'captcha',
+    'debug_toolbar',
 ]
 
 
@@ -63,6 +63,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
+
 ]
 
 ROOT_URLCONF = 'project.urls'
@@ -178,3 +180,8 @@ AUTH_USER_MODEL = 'accounts.User'
 RECAPTCHA_PUBLIC_KEY = '6LeTDigUAAAAAB1ETqVH8bpbPsn52LXPNU03dkHQ'
 RECAPTCHA_PRIVATE_KEY = '6LeTDigUAAAAAPL_PbQCqhr7BONjrog5A1W_XD-p'
 NOCAPTCHA = True
+
+
+# pip install django-debug-toolbar
+# https://django-debug-toolbar.readthedocs.io/en/stable/installation.html#internal-ips
+INTERNAL_IPS = '127.0.0.1'
