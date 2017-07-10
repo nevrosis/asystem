@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% block title %}Become a bidder{% endblock %}
+{% block title %}Inventory Import{% endblock %}
 
 {% block jumbotron %}
     <div class="jumbotron jumbotron-fluid" id="jumbotron-become-a-bidder">
@@ -33,54 +33,23 @@
                 </div>
             {% endif %}
 
-            <form action="" method="post">
+            <form action="" method="post" enctype="multipart/form-data">
                 {% csrf_token %}
+                {{ form }}
                 <div class="card">
                     <div class="card-header card-inverse" style="background-color: #333; border-color: #333;">
                         Auctioneer Information
                     </div>
-
-{#                    <div class="customForm">#}
-{#                    {{ form.as_table }}#}
-{#                    </div>#}
-
-
-                      {% for field in form %}
-                      <div class="card-block">
-                          <div id="{{ field.auto_id }}_container">
-                              {{ field.help_text }}
-                              <div>
-                                  {{ field.label_tag }} {{ field }}
-                              </div>
-                              <div id="{{ field.auto_id }}_errors">
-                                  {{ field.errors }}
-                              </div>
-                          </div>
-                      </div>
-                      {% endfor %}
-
-
-{#                    {% for field in form %}#}
-{#                    <div class="card-block">#}
-{#                        <div class="form-group">#}
-{#                            <label for="{{ form.name.id_for_label }}">{{ field.name }}:</label>#}
-{#                            {{ field }}#}
-{#                        </div>#}
-{#                    </div>#}
-{#                    {% endfor %}#}
-
-
-{#                    <div class="card-block">#}
-{#                        <div class="form-group">#}
+                    <div class="card-block">
+                        <div class="form-group">
 {#                            <label for="{{ form.name.id_for_label }}">Name:</label>#}
 {#                            {{ form.name }}#}
 {#                            <input type="text" class="form-control" name="name" id="name" placeholder="Name" required>#}
-{#                        </div>#}
-{#                        {% if form.name.errors %}#}
-{#                            <div class="alert alert-danger" role="alert">{{ form.name.errors }}</div>#}
-{#                        {% endif %}#}
-{#                    </div>#}
-
+                        </div>
+                        {% if form.name.errors %}
+                            <div class="alert alert-danger" role="alert">{{ form.name.errors }}</div>
+                        {% endif %}
+                    </div>
                 </div>
 
                 <br>

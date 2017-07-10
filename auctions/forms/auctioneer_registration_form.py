@@ -12,3 +12,6 @@ class AuctioneerRegistration(forms.ModelForm):
     class Meta:
         model = Auctioneer
         fields = ['name', ]
+        widgets = {
+            'name': forms.TextInput(attrs={'placeholder': 'Name', 'class': 'form-control'}),
+        }

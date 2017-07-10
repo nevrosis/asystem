@@ -4,6 +4,7 @@ from django.db.models import CharField, TextField, BooleanField, IntegerField, S
 # from django.utils.text import slugify
 # from uuslug import slugify
 from uuslug import uuslug
+import csv
 
 
 class Auction(models.Model):
@@ -31,8 +32,31 @@ class Auction(models.Model):
         self.slug = uuslug(self.name, instance=self)
         super(Auction, self).save(*args, **kwargs)
 
+    def import_item_csv(self, file_data):
+        reader = csv.DictReader(file_data)
+
+        for item in reader:
+            obj, created = Item.objects.update_or_create(lot=item['lot'], auction=self, defaults={
+                'name': item['name'],
+                'description': item['description'],
+                'auctioneer': self.auctioneer
+            })
+
     class Meta:
         ordering = ('name',)
+
+
+class Bid(models.Model):
+    amount = models.DecimalField(max_digits=10, decimal_places=2)
+    item = models.ForeignKey("Item", on_delete=models.CASCADE, verbose_name='Item')
+    user = models.ForeignKey("accounts.User", on_delete=models.CASCADE, verbose_name='User')
+    cancelled = models.BooleanField(default=False)
+    cancelled_date = models.DateTimeField(blank=True, null=True)
+    cancelled_by_user = models.ForeignKey("accounts.User", on_delete=models.CASCADE, related_name="cancelled_by_user",
+                                          blank=True, null=True)
+    ip = models.GenericIPAddressField(blank=True, null=True)
+    created_date = models.DateTimeField(auto_now_add=True)
+    modified_date = models.DateTimeField(auto_now=True)
 
 
 class Item(models.Model):
@@ -40,6 +64,7 @@ class Item(models.Model):
     slug = SlugField(max_length=512, unique=True, db_index=True)
     lot = CharField(max_length=25, verbose_name='Lot Number')
     run = CharField(max_length=25, verbose_name='Run Number')
+    description = TextField(blank=True, null=True, verbose_name='Description')
     published = models.BooleanField(default=False, verbose_name='Published')
     created_date = models.DateTimeField(auto_now_add=True)
     modified_date = models.DateTimeField(auto_now=True)
@@ -118,6 +143,7 @@ class ItemCategory(models.Model):
     class Meta:
         ordering = ('name',)
 
+
 #
 # def pre_save_item_signal_receiver(sender, instance, *args, **kwargs):
 #    slug = slugify(instance.name)
@@ -136,7 +162,8 @@ class ItemPicture(models.Model):
     picture = ImageField(blank=True, null=True, verbose_name='Picture')
     created_date = models.DateTimeField(auto_now_add=True)
     modified_date = models.DateTimeField(auto_now=True)
-    item = models.ForeignKey("Item", on_delete=models.CASCADE, blank=True, null=True, verbose_name='Item', related_name="item_pictures")
+    item = models.ForeignKey("Item", on_delete=models.CASCADE, blank=True, null=True, verbose_name='Item',
+                             related_name="item_pictures")
 
     # def __str__(self):
     #     return self.name

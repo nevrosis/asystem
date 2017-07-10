@@ -99,7 +99,6 @@ WSGI_APPLICATION = 'project.wsgi.application'
 #    }
 #}
 
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
@@ -111,12 +110,11 @@ DATABASES = {
     }
 }
 
-
 # DATABASES = {
 #     'default': config(
-#         'DATABASE_URL',
-#         cast=db_url
-#     )
+#          'DATABASE_URL',
+#          cast=db_url
+#      )
 # }
 
 # Password validation

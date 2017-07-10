@@ -2,6 +2,7 @@ from django.conf.urls import url, include
 from django.contrib import admin
 from auctions import views
 from auctions.api import urls as api_url
+from tasks import urls as tasks_url
 from django.conf import settings
 from django.conf.urls.static import static
 
@@ -11,17 +12,18 @@ urlpatterns = [
 
     url(r'^__debug__/', include(debug_toolbar.urls)),
 
-    url(r'^auctioneer-registration-completed/$', views.AuctioneerRegistrationCompleted.as_view(), name='AuctioneerRegistrationCompleted'),
-    url(r'^auctioneer-registration-form/$', views.AuctioneerRegistrationForm.as_view(), name='AuctioneerRegistrationForm'),
-    url(r'^bidder-registration-form/$', views.BidderRegistrationForm.as_view(), name='BidderRegistrationForm'),
+    url(r'^auctioneer-registration-completed/$', views.AuctioneerRegistrationCompleted.as_view(), name='auctioneer_registration_completed'),
+    url(r'^auctioneer-registration-form/$', views.AuctioneerRegistrationForm.as_view(), name='auctioneer_registration_form'),
+    url(r'^bidder-registration-form/$', views.BidderRegistrationForm.as_view(), name='bidder_registration_form'),
 
-    url(r'^auctions/details/(?P<auction_id>[0-9]+)', views.catalog_auction_details, name='auction_details'),
-    url(r'^auctions/', views.catalog_auctions, name='auctions'),
+    url(r'^auctions/inventory_import/(?P<auction_id>[0-9]+)/$', views.auction_item_import_csv, name='auction_item_import_csv'),
+    url(r'^auctions/details/(?P<auction_id>[0-9]+)/$', views.catalog_auction_details, name='auction_details'),
+    url(r'^auctions/$', views.catalog_auctions, name='auctions'),
 
-    url(r'^categories/', views.catalog_categories, name='categories'),
+    url(r'^categories/$', views.catalog_categories, name='categories'),
 
     url(r'^items/(?P<item_id>[0-9]+)/$', views.catalog_item_details, name='item'),
-    url(r'^items/', views.catalog_items, name='items'),
+    url(r'^items/$', views.catalog_items, name='items'),
 
     url(r'^search/(?P<criteria>[\w\-_%20]+)', views.catalog_search, name='search'),
 
@@ -34,6 +36,7 @@ urlpatterns = [
     url(r'^api/', include(api_url)),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
+    url(r'^tasks/', include(tasks_url, namespace='tasks')),
 
     url(r'^$', views.catalog_index, name='index'),
 

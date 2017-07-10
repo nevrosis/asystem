@@ -1,8 +1,11 @@
+import codecs
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth import login, authenticate
 from django.views.generic import View
-from .forms import AuctioneerRegistration, BidderRegistration
+from .forms import AuctioneerRegistration, BidderRegistration, ItemCSVUploadForm
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.contrib.admin.views.decorators import staff_member_required
+import io
 
 
 from auctions.models import (
@@ -11,6 +14,24 @@ from auctions.models import (
     Item,
     ItemCategory
 )
+
+
+@staff_member_required
+def auction_item_import_csv(request, auction_id):
+    auction = get_object_or_404(Auction, pk=auction_id)
+    if request.method == 'POST':
+        form = ItemCSVUploadForm(request.POST, request.FILES)
+        if form.is_valid():
+            file = io.StringIO(request.FILES['csv_file'].read().decode('utf-8'))
+            auction.import_item_csv(file)
+            return redirect('index')
+    else:
+        form = ItemCSVUploadForm()
+
+    context = {
+        'form': form,
+    }
+    return render(request, 'auction_item_import_csv_form.html', context)
 
 
 def catalog_index(request):
@@ -154,7 +175,7 @@ class AuctioneerRegistrationForm(View):
 
         if form.is_valid():
             auctioneer = form.save(commit=False)
-            auctioneer.name = form.cleaned_data['name']
+            auctioneer.name = form.cleaned_data.get('name')
 
             try:
                 auctioneer.save()
@@ -186,8 +207,8 @@ class BidderRegistrationForm(View):
 
         if form.is_valid():
             user = form.save(commit=False)
-            password = form.cleaned_data['password']
-            email = form.cleaned_data['email']
+            password = form.cleaned_data.get('password')
+            email = form.cleaned_data.get('email')
 
             # try:
             #     validate_email(email)
@@ -201,10 +222,10 @@ class BidderRegistrationForm(View):
             user.username = email
             user.set_password(password)
 
-            # try:
-            #     user.save()
-            # except Exception as e:
-            #     return render(request, self.template_name, {'form': form, 'error': 'Email Already in Use.'})
+            try:
+                user.save()
+            except Exception as e:
+                return render(request, self.template_name, {'form': form, 'error': 'Email Already in Use.'})
 
             user = authenticate(username=email, password=password)
             if user is not None:
@@ -213,3 +234,6 @@ class BidderRegistrationForm(View):
                     return redirect('index')
 
         return render(request, self.template_name, {'form': form, 'Error': 'please fill this form.'})
+
+
+# class BidderRegistrationForm(View):

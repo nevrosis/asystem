@@ -1,21 +1,36 @@
 from django.contrib import admin
-from auctions.models import Auction
-from auctions.models import ItemCategory
-from auctions.models import Item
-from auctions.models import Auctioneer
-from auctions.models import ItemPicture
+from auctions.models import (
+    Auction,
+    ItemCategory,
+    Item,
+    Auctioneer,
+    ItemPicture,
+    Bid,
+)
 
 admin.site.site_header = 'asystem admin'
 
 
+class BidAdmin(admin.ModelAdmin):
+    list_display = ('amount', 'user', 'item', 'created_date',)
+    fieldsets = (
+        ("General", {
+            'fields': ('amount', 'user', 'item', 'ip', )
+        }),
+        ("Cancelled", {
+            'fields': ('cancelled', 'cancelled_date', 'cancelled_by_user',)
+        }),
+    )
+
+
 class ItemPictureTabularInlineAdmin(admin.TabularInline):
     model = ItemPicture
-    extra = 1
+    extra = 0
 
 
 class AuctionAdmin(admin.ModelAdmin):
     list_display = ('name', 'published', 'auctioneer', 'terminated',)
-    list_filter = ('auctioneer', )
+    list_filter = ('auctioneer',)
     fieldsets = (
         ("General", {
             'fields': ('published',)
@@ -39,7 +54,8 @@ class AuctionAdmin(admin.ModelAdmin):
 
 
 class ItemAdmin(admin.ModelAdmin):
-    list_display = ('name', 'published', 'lot', 'run', 'auctioneer', 'auction', 'item_categories_display', 'item_picture_count',)
+    list_display = (
+        'name', 'published', 'lot', 'run', 'auctioneer', 'auction', 'item_categories_display', 'item_picture_count',)
     list_filter = ('auction', 'item_categories', 'published',)
     list_editable = ('published', 'lot', 'run',)
     inlines = [ItemPictureTabularInlineAdmin]
@@ -52,7 +68,7 @@ class ItemAdmin(admin.ModelAdmin):
         }),
     )
 
-    #def get_queryset(self, request):
+    # def get_queryset(self, request):
     #    qs = super().get_queryset(request)
     #        if request.user.is_superuser:
     #            return qs
@@ -60,8 +76,8 @@ class ItemAdmin(admin.ModelAdmin):
 
 
 class AuctioneerAdmin(admin.ModelAdmin):
-    list_display = ('name', 'id', 'activated', )
-    list_filter = ('activated', )
+    list_display = ('name', 'id', 'activated',)
+    list_filter = ('activated',)
     list_editable = ('activated',)
     fieldsets = (
         ("General", {
@@ -77,7 +93,7 @@ class AuctioneerAdmin(admin.ModelAdmin):
 
 
 class ItemCategoryAdmin(admin.ModelAdmin):
-    list_display = ('name', )
+    list_display = ('name',)
     fieldsets = (
         ("General", {
             'fields': ('name',)
@@ -87,7 +103,7 @@ class ItemCategoryAdmin(admin.ModelAdmin):
 
 class ItemPictureAdmin(admin.ModelAdmin):
     list_display = ('name', 'primary', 'order', 'item')
-    list_filter = ('name', )
+    list_filter = ('name',)
     fieldsets = (
         ("General", {
             'fields': ('name', 'item', 'primary', 'order', 'picture')
@@ -95,6 +111,7 @@ class ItemPictureAdmin(admin.ModelAdmin):
     )
 
 
+admin.site.register(Bid, BidAdmin)
 admin.site.register(Auction, AuctionAdmin)
 admin.site.register(Item, ItemAdmin)
 admin.site.register(Auctioneer, AuctioneerAdmin)

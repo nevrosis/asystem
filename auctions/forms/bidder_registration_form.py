@@ -9,9 +9,17 @@ class BidderRegistration(forms.ModelForm):
     password = forms.CharField(widget=forms.PasswordInput)
     captcha = ReCaptchaField()
 
-    def clean(self):
-        pass
-
     class Meta:
         model = User
-        fields = ['username', 'email', 'password', ]
+        fields = ['first_name', 'last_name', 'email', 'password', ]
+        widgets = {
+            'email': forms.TextInput(attrs={'placeholder': 'Email', 'class': 'form-control'}),
+            'password': forms.PasswordInput(attrs={'placeholder': 'Password', 'class': 'form-control'}),
+        }
+
+    def clean_first_name(self):
+        first_name = self.cleaned_data.get("first_name")
+        if "xxx" in first_name:
+            raise forms.ValidationError("no valid Fist name")
+        return first_name
+
