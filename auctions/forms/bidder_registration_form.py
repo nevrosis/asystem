@@ -23,3 +23,4 @@ class BidderRegistration(forms.ModelForm):
             raise forms.ValidationError("no valid Fist name")
         return first_name
 
+
