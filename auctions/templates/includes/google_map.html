@@ -1,0 +1,57 @@
+<script src='https://maps.googleapis.com/maps/api/js?v=3.exp&key=AIzaSyAS69GSu6ljGJ2P2-240w08EXfy9xITLlk'></script>
+
+{% for ad in address %}
+    <br class="clearfix">
+    <div class="card mb-12">
+        <div id="map{{ ad.id }}" style="width: 100%; height: 330px;"></div>
+
+        <div class="card-block">
+            <h4 class="card-title">{{ info }} - {{ ad.name }}</h4>
+
+            <p class="card-text">{{ ad.address_line1 }}, {{ ad.city }}<br>{{ ad.state_province }}, {{ ad.country }} {{ ad.zip_code }}
+            </p>
+            {#                <p class="card-text">#}
+            {#                    <small class="text-muted">Last updated 3 mins ago</small>#}
+            {#                </p>#}
+        </div>
+    </div>
+
+    <script type='text/javascript'>
+        var geocoder{{ ad.id }};
+        var map{{ ad.id }};
+        function initialize{{ ad.id }}() {
+            geocoder{{ ad.id }} = new google.maps.Geocoder();
+            //var latlng = new google.maps.LatLng(40.7128, -74.0059);
+            var mapOptions = {
+                zoom: 10,
+                center: new google.maps.LatLng(0, 0),
+                mapTypeId: google.maps.MapTypeId.ROADMAP
+            };
+            map{{ ad.id }} = new google.maps.Map(document.getElementById('map{{ ad.id }}'), mapOptions);
+        }
+        initialize{{ ad.id }}();
+
+        function codeAddress{{ ad.id }}() {
+            //var address = document.getElementById('address').value;
+            var address = '{{ ad.address_line1 }}, {{ ad.city }} {{ ad.state }} {{ ad.zipcode }} {{ ad.country }}';
+            geocoder{{ ad.id }}.geocode({'address': address}, function (results, status) {
+                if (status == 'OK') {
+                    map{{ ad.id }}.setCenter(results[0].geometry.location);
+                    var marker = new google.maps.Marker({
+                        map: map{{ ad.id }},
+                        position: results[0].geometry.location
+                    });
+                    infowindow{{ ad.id }} = new google.maps.InfoWindow({content: '<strong>{{ info }}</strong><br><br>{{ ad.name }}<br>{{ ad.address_line1 }}, {{ ad.city }}<br>{{ ad.state_province }}, {{ ad.country }} {{ ad.zip_code }}<br>'});
+                    google.maps.event.addListener(marker, 'click', function () {
+                        infowindow{{ ad.id }}.open(map{{ ad.id }}, marker);
+                    });
+                    infowindow{{ ad.id }}.open(map{{ ad.id }}, marker);
+                } else {
+                    alert('Geocode was not successful for the following reason: ' + status);
+                }
+            });
+        }
+        codeAddress{{ ad.id }}();
+    </script>
+{% endfor %}
+<br class="clearfix">

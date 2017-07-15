@@ -180,12 +180,13 @@ class Address(models.Model):
     # https://github.com/SmileyChris/django-countries/blob/master/django_countries/data.py
 
     COUNTRY_CHOICES = (
-        ('CA', 'Canada'),
         ('US', 'USA'),
+        ('CA', 'Canada'),
     )
     STATE_CHOICES = (
         ('NY', 'New York'),
         ('QC', 'Quebec'),
+        ('ON', 'Ontario'),
     )
     name = models.CharField("Name", max_length=45, blank=True, null=True)
     address_line1 = models.CharField("Address line 1", max_length=45, blank=True, null=True)
