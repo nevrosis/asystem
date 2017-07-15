@@ -130,7 +130,7 @@ def catalog_item_details(request, item_id):
 def catalog_items(request):
     items_list = Item.objects.filter(published=True).order_by('run').order_by('lot').order_by('name')
 
-    paginator = Paginator(items_list, 3)
+    paginator = Paginator(items_list, 6)
     page = request.GET.get('page')
 
     try:

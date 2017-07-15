@@ -6,10 +6,60 @@
     <div class="jumbotron jumbotron-fluid">
         <div class="container">
             <h1 class="display-3">{{ auctioneer.name }}</h1>
+
             <p class="lead">{% if auctioneer.motto %}{{ auctioneer.motto|title }}{% else %}&nbsp;{% endif %}</p>
         </div>
     </div>
 {% endblock %}
 
 {% block content %}
+
+
+
+{#    <div style='overflow:hidden;height:330px;width:100%;'>#}
+{#        <div id='gmap' style='height:330px;width:100%;'></div>#}
+{#        <style>#gmaps img {#}
+{#            max-width: none !important;#}
+{#            background: none !important#}
+{#        }</style>#}
+{#    </div>#}
+{#    <script type='text/javascript'>#}
+{#        var geocoder;#}
+{##}
+{#        function init_map(lat, lng) {#}
+{#            var geocoder = new google.maps.Geocoder;#}
+{#            var myOptions = {#}
+{#                zoom: 10,#}
+{#                center: new google.maps.LatLng(lat, lng),#}
+{#                mapTypeId: google.maps.MapTypeId.ROADMAP#}
+{#            };#}
+{#            map = new google.maps.Map(document.getElementById('gmap'), myOptions);#}
+{#            marker = new google.maps.Marker({#}
+{#                map: map,#}
+{#                position: new google.maps.LatLng(lat, lng)#}
+{#            });#}
+{#            infowindow = new google.maps.InfoWindow({content: '<strong>Ottawa</strong><br>263 freedom private<br> ottawa<br>'});#}
+{#            google.maps.event.addListener(marker, 'click', function () {#}
+{#                infowindow.open(map, marker);#}
+{#            });#}
+{#            infowindow.open(map, marker);#}
+{#        }#}
+{#        function call_google() {#}
+{#            var xhttp = new XMLHttpRequest();#}
+{#            xhttp.onreadystatechange = function () {#}
+{#                if (this.readyState == 4 && this.status == 200) {#}
+{#                    var jsonObject = JSON.parse(this.responseText);#}
+{#                    console.dir(jsonObject.results[0].geometry.location);#}
+{#                    lat = jsonObject.results[0].geometry.location.lat;#}
+{#                    lng = jsonObject.results[0].geometry.location.lng;#}
+{#                    init_map(lat, lng);#}
+{#                }#}
+{#            };#}
+{#            xhttp.open("GET", "https://maps.googleapis.com/maps/api/geocode/json?address=263 Freedom Private,Ottawa,ON&key=AIzaSyAqiPCsVXMZZh8qwtsjmyZz1Dm0mfYFgHE", true);#}
+{#            xhttp.send();#}
+{#        }#}
+{#        google.maps.event.addDomListener(window, 'load', call_google);#}
+{#    </script>#}
+
+
 {% endblock %}

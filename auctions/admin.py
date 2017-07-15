@@ -6,6 +6,8 @@ from auctions.models import (
     Auctioneer,
     ItemPicture,
     Bid,
+    AuctioneerAddress,
+    AuctioneerShippingAddress,
 )
 
 admin.site.site_header = 'asystem admin'
@@ -75,13 +77,25 @@ class ItemAdmin(admin.ModelAdmin):
     #    return qs.filter(user=request.user)
 
 
+class AuctioneerAddressTabularInlineAdmin(admin.TabularInline):
+    model = AuctioneerAddress
+    extra = 0
+
+
+class AuctioneerShippingAddressTabularInlineAdmin(admin.TabularInline):
+    model = AuctioneerShippingAddress
+    extra = 0
+
+
 class AuctioneerAdmin(admin.ModelAdmin):
     list_display = ('name', 'id', 'activated',)
     list_filter = ('activated',)
     list_editable = ('activated',)
+    inlines = [AuctioneerAddressTabularInlineAdmin, AuctioneerShippingAddressTabularInlineAdmin]
+    inlines = [AuctioneerAddressTabularInlineAdmin, AuctioneerShippingAddressTabularInlineAdmin]
     fieldsets = (
         ("General", {
-            'fields': (('name', 'activated'), 'motto')
+            'fields': (('name', 'activated'), 'motto',)
         }),
     )
 
@@ -102,8 +116,8 @@ class ItemCategoryAdmin(admin.ModelAdmin):
 
 
 class ItemPictureAdmin(admin.ModelAdmin):
-    list_display = ('name', 'primary', 'order', 'item')
-    list_filter = ('name',)
+    list_display = ('name', 'primary', 'order', 'item',)
+    # list_filter = ('item',)
     fieldsets = (
         ("General", {
             'fields': ('name', 'item', 'primary', 'order', 'picture')

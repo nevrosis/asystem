@@ -1,0 +1,39 @@
+<div id="map" style="width: 100%; height: 330px;"></div>
+
+<script src='https://maps.googleapis.com/maps/api/js?v=3.exp&key=AIzaSyAS69GSu6ljGJ2P2-240w08EXfy9xITLlk'></script>
+<script type='text/javascript'>
+    var geocoder;
+    var map;
+    function initialize() {
+        geocoder = new google.maps.Geocoder();
+        var latlng = new google.maps.LatLng(40.7128, 74.0059);
+        var mapOptions = {
+            zoom: 10,
+            center: new google.maps.LatLng(40.7128, 74.0059),
+            mapTypeId: google.maps.MapTypeId.ROADMAP
+        };
+        map = new google.maps.Map(document.getElementById('map'), mapOptions);
+    }
+    initialize();
+
+    function codeAddress() {
+        var address = document.getElementById('address').value;
+        //var address = '263 Freedom Private, ottawa, Ontario, K1G6W1';
+        geocoder.geocode({'address': address}, function (results, status) {
+            if (status == 'OK') {
+                map.setCenter(results[0].geometry.location);
+                var marker = new google.maps.Marker({
+                    map: map,
+                    position: results[0].geometry.location
+                });
+            } else {
+                //alert('Geocode was not successful for the following reason: ' + status);
+            }
+        });
+    }
+
+</script>
+<div>
+    <input id="address" type="textbox" value="263 freedom private, ottawa, Ontario, canada">
+    <input type="button" value="Encode" onclick="codeAddress()">
+</div>
