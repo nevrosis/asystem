@@ -112,7 +112,7 @@ def catalog_auctioneers_auctions_items_details(request, auctioneer_slug, auction
 
 
 def catalog_categories(request):
-    item_categories = ItemCategory.objects.all
+    item_categories = ItemCategory.objects.all().order_by('name')
     context = {
         'item_categories': item_categories,
     }
@@ -130,7 +130,7 @@ def catalog_item_details(request, item_id):
 def catalog_items(request):
     items_list = Item.objects.filter(published=True).order_by('run').order_by('lot').order_by('name')
 
-    paginator = Paginator(items_list, 6)
+    paginator = Paginator(items_list, 3)
     page = request.GET.get('page')
 
     try:

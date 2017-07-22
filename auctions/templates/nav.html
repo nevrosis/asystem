@@ -14,16 +14,16 @@
             <li class="nav-item active">
                 <a class="nav-link" href="/auctions/">Auctions</a>
             </li>
-            <li class="nav-item">
+            <li class="nav-item active">
                 <a class="nav-link" href="/items/">Items</a>
             </li>
-            <li class="nav-item">
+            <li class="nav-item active">
                 <a class="nav-link" href="/categories/">Categories</a>
             </li>
             {% if user.is_staff %}
-            <li class="nav-item">
-                <a class="nav-link" href="{% url 'tasks:list' %}">Tasks</a>
-            </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="{% url 'tasks:list' %}">Tasks</a>
+                </li>
             {% endif %}
             <!--
               <li class="nav-item dropdown">
@@ -42,12 +42,15 @@
         </form>
 
         <script>
-            function post_form(){
+            function post_form() {
                 var nameValue = document.getElementById("criteria").value;
                 location.assign("/search/" + nameValue + "/");
             }
             myBtn = document.getElementById("searchBtn");
-            myBtn.onclick = function() { post_form(); return false; }
+            myBtn.onclick = function () {
+                post_form();
+                return false;
+            }
         </script>
 
         <ul class="nav justify-content-end">
@@ -56,10 +59,10 @@
                     <a class="nav-link" href="/admin/">{{ user.first_name }}</a>
                 </li>
             {% else %}
-                <li class="nav-item" style="padding:0 10px">
+                <li class="nav-item active" style="padding:0 10px">
                     <a class="nav-link btn btn-success" href="/bidder-registration-form/">Become a bidder</a>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item active">
                     <a class="nav-link btn btn-primary" href="/admin/">Bidder login</a>
                 </li>
             {% endif %}

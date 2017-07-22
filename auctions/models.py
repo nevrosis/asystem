@@ -208,8 +208,9 @@ class Address(models.Model):
 
 
 class AuctioneerAddress(Address):
-    auctioneer = models.ForeignKey("Auctioneer", on_delete=models.CASCADE, verbose_name='Address', blank=True, null=True,
-                                related_name="auctioneer_address")
+    auctioneer = models.ForeignKey("Auctioneer", on_delete=models.CASCADE, verbose_name='Address', blank=True,
+                                   null=True,
+                                   related_name="auctioneer_address")
 
     class Meta:
         verbose_name = "Address"
@@ -218,8 +219,9 @@ class AuctioneerAddress(Address):
 
 
 class AuctioneerShippingAddress(Address):
-    auctioneer = models.ForeignKey("Auctioneer", on_delete=models.CASCADE, verbose_name='Address', blank=True, null=True,
-                                related_name="auctioneer_shipping_address")
+    auctioneer = models.ForeignKey("Auctioneer", on_delete=models.CASCADE, verbose_name='Address', blank=True,
+                                   null=True,
+                                   related_name="auctioneer_shipping_address")
 
     class Meta:
         verbose_name = "Shipping Address"
