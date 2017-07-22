@@ -41,7 +41,7 @@ class AuctionAdmin(admin.ModelAdmin):
             'fields': ('name', 'auctioneer',)
         }),
         ("Auction Dates", {
-            'fields': ('auction_start_date', 'auction_end_date',)
+            'fields': ('auction_date_start', 'auction_date_end',)
         }),
         ("Auction Descriptions", {
             'fields': ('summary', 'description',)
@@ -67,6 +67,9 @@ class ItemAdmin(admin.ModelAdmin):
         }),
         ('Advanced options', {
             'fields': ('item_categories',)
+        }),
+        ('Timed auction settings', {
+            'fields': ('auction_date_start', 'auction_date_end',)
         }),
     )
 

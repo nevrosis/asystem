@@ -14,6 +14,10 @@
 
 {% block content %}
 
+
+
+
+
     <!--
     <p><a href="/auctioneers/{{ auctioneer.slug }}/details/">Auctioneer Details</a></p>
     <p><a href="/auctions/{{ auction.slug }}/details/">Auction Details</a></p>
@@ -109,10 +113,16 @@
 
                         <p class="card-text">This is a longer card with supporting text below as a natural lead-in to
                             additional content. This content is a little bit longer.</p>
-                        <div class="text-center"><small>time left</small></div>
-                        <div class="text-center">10:50:30</div>
+
+                        <div class="text-center">
+                            <small>time left</small>
+                        </div>
+                        <div class="text-center timer" id="timer_{{ item.id }}">Calculating...</div>
                         <br>
-                        <div class="text-center"><button type="submit" class="btn btn-primary">Bid $5000</button></div>
+
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-primary">Bid $5000</button>
+                        </div>
                     </div>
                     <div class="card-footer">
                         <small class="text-muted">{% for cat in item.item_categories_query %}
@@ -123,5 +133,112 @@
             {% endfor %}
         </div>
     </div>
+
+    <div id="clock"></div>
+
+
+
+    <script>
+        var item_list = [];
+        {% for item in items %}
+            var item_obj = {};
+            item_obj.id = {{ item.id }};
+            item_obj.auction_date_start = '{{ item.auction_date_start|date:'Y-m-d H:i:s' }}';
+            item_obj.auction_date_end = '{{ item.auction_date_end|date:'Y-m-d H:i' }}';
+            item_list.push(item_obj);
+        {% endfor %}
+        //console.dir(item_list);
+        {##}
+        {#        window.onload = function (e) {#}
+        {##}
+        {#            var index;#}
+        {#            for (index = item_list.length - 1; index >= 0; --index) {#}
+        {#                //console.dir(item_list[index].auction_date_start);#}
+        {#                var $clock = $('#timer_' + item_list[index].id),#}
+        {#                        eventTime = moment(item_list[index].auction_date_start, 'YYYY-MM-DD HH:mm:ss').unix(),#}
+        {#                        currentTime = moment().unix(),#}
+        {#                        diffTime = eventTime - currentTime,#}
+        {#                        duration = moment.duration(diffTime * 1000, 'milliseconds'),#}
+        {#                        interval = 1000;#}
+        {##}
+        {#                // if time to countdown#}
+        {#                if (diffTime > 0) {#}
+        {##}
+        {#                    // Show clock#}
+        {#                    // $clock.show();#}
+        {##}
+        {#                    var $d = $('<div class="days" ></div>').appendTo($clock),#}
+        {#                            $h = $('<div class="hours" ></div>').appendTo($clock),#}
+        {#                            $m = $('<div class="minutes" ></div>').appendTo($clock),#}
+        {#                            $s = $('<div class="seconds" ></div>').appendTo($clock);#}
+        {##}
+        {#                    setInterval(function () {#}
+        {#                        //console.dir(1);#}
+        {#                        duration = moment.duration(duration.asMilliseconds() - interval, 'milliseconds');#}
+        {#                        var d = moment.duration(duration).days(),#}
+        {#                                h = moment.duration(duration).hours(),#}
+        {#                                m = moment.duration(duration).minutes(),#}
+        {#                                s = moment.duration(duration).seconds();#}
+        {##}
+        {#                        d = $.trim(d).length === 1 ? '0' + d : d;#}
+        {#                        h = $.trim(h).length === 1 ? '0' + h : h;#}
+        {#                        m = $.trim(m).length === 1 ? '0' + m : m;#}
+        {#                        s = $.trim(s).length === 1 ? '0' + s : s;#}
+        {##}
+        {#                        // show how many hours, minutes and seconds are left#}
+        {#                        $d.text(d);#}
+        {#                        $h.text(h);#}
+        {#                        $m.text(m);#}
+        {#                        $s.text(s);#}
+        {##}
+        {#                    }, interval);#}
+        {##}
+        {#                } else {#}
+        {#                    $clock.text('time is over');#}
+        {#                }#}
+        {#            }#}
+        {#        };#}
+        {#    </script>#}
+
+        function updateTimer() {
+            var index;
+            for (index = item_list.length - 1; index >= 0; --index) {
+                var $clock = $('#timer_' + item_list[index].id),
+                        eventTime = moment(item_list[index].auction_date_start, 'YYYY-MM-DD HH:mm:ss').unix(),
+                        currentTime = moment().unix(),
+                        diffTime = eventTime - currentTime,
+                        duration = moment.duration(diffTime * 1000, 'milliseconds');
+                        //interval = 1000;
+
+                $clock.text(duration);
+                if (diffTime > 0) {
+                    duration = moment.duration(duration.asMilliseconds(), 'milliseconds');
+                    var d = moment.duration(duration).days(),
+                            h = moment.duration(duration).hours(),
+                            m = moment.duration(duration).minutes(),
+                            s = moment.duration(duration).seconds();
+
+                    d = $.trim(d).length === 1 ? '0' + d : d;
+                    h = $.trim(h).length === 1 ? '0' + h : h;
+                    m = $.trim(m).length === 1 ? '0' + m : m;
+                    s = $.trim(s).length === 1 ? '0' + s : s;
+
+                    // show how many hours, minutes and seconds are left
+                    $clock.text(d + ':' + h + ':' + m + ':' + s);
+                } else {
+                    $clock.text('');
+                }
+            }
+        }
+        ;
+
+        window.onload = function (e) {
+            //datetime = $('#datetime')
+            //updateTimer();
+            setInterval(updateTimer, 1000);
+        };
+
+    </script>
+
 
 {% endblock %}

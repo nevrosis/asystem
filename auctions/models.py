@@ -66,6 +66,8 @@ class Item(models.Model):
     run = CharField(max_length=25, verbose_name='Run Number')
     description = TextField(blank=True, null=True, verbose_name='Description')
     published = models.BooleanField(default=False, verbose_name='Published')
+    auction_date_start = models.DateTimeField(blank=True, null=True)
+    auction_date_end = models.DateTimeField(blank=True, null=True)
     created_date = models.DateTimeField(auto_now_add=True)
     modified_date = models.DateTimeField(auto_now=True)
     auctioneer = models.ForeignKey("Auctioneer", on_delete=models.CASCADE, verbose_name='Auctioneer')
