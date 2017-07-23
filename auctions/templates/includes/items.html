@@ -3,7 +3,8 @@
         <ul class="pagination">
             <li class="page-item">
                 {% if items.has_previous %}
-                    <a class="page-link" href="?page={{ items.previous_page_number }}" aria-label="Previous">
+                    <a class="page-link" href="?page={{ items.previous_page_number }}"
+                       aria-label="Previous">
                         <span aria-hidden="true">&laquo;</span>
                         <span class="sr-only">Previous</span>
                     </a>
@@ -43,12 +44,17 @@
                     </h4>
 
                     <div class="row">
-                        <div class="col-3"><small>Lot</small></div>
+                        <div class="col-3">
+                            <small>Lot</small>
+                        </div>
                         <div class="col-3">{{ item.lot }}</div>
-                        <div class="col-3 text-right"><small>Run</small></div>
+                        <div class="col-3 text-right">
+                            <small>Run</small>
+                        </div>
                         <div class="col-3 text-right tex">{{ item.lot }}</div>
                     </div>
                     <p class="card-text text-muted">{{ item.summary }}</p>
+
                     <div class="text-center">
                         <small id="timer_label_{{ item.id }}">Calculating...</small>
                     </div>

@@ -86,8 +86,19 @@ def catalog_auctioneers_auctions(request, auctioneer_slug):
 def catalog_auctioneers_auctions_items(request, auctioneer_slug, auction_slug):
     auctioneer = get_object_or_404(Auctioneer, slug=auctioneer_slug)
     auction = get_object_or_404(Auction, slug=auction_slug)
-    items = Item.objects.filter(auction_id=auction.id)
+    items_list = Item.objects.filter(auction_id=auction.id)
     item_categories = ItemCategory.objects.all().order_by('name')
+
+    paginator = Paginator(items_list, 3)
+    page = request.GET.get('page')
+
+    try:
+        items = paginator.page(page)
+    except PageNotAnInteger:
+        items = paginator.page(1)
+    except EmptyPage:
+        items = paginator.page(paginator.num_pages)
+
     context = {
         'auctioneer': auctioneer,
         'auction': auction,

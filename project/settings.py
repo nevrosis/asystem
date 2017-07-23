@@ -46,7 +46,6 @@ INSTALLED_APPS = [
     'debug_toolbar',
 ]
 
-
 REST_FRAMEWORK = {
     # Use Django's standard `django.contrib.auth` permissions,
     # or allow read-only access for unauthenticated users.
@@ -92,30 +91,33 @@ WSGI_APPLICATION = 'project.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
 
-#DATABASES = {
+# DATABASES = {
 #    'default': {
 #        'ENGINE': 'django.db.backends.sqlite3',
 #        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
 #    }
-#}
-
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql_psycopg2', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-#         'NAME': 'asystem',                      # Or path to database file if using sqlite3.
-#         'USER': 'django_login',                      # Not used with sqlite3.
-#         'PASSWORD': '1209qwpo',                  # Not used with sqlite3.
-#         'HOST': '',                      # Set to empty string for localhost. Not used with sqlite3.
-#         'PORT': '',                      # Set to empty string for default. Not used with sqlite3.
-#     }
 # }
 
-DATABASES = {
-    'default': config(
-         'DATABASE_URL',
-         cast=db_url
-     )
-}
+if DEBUG:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql_psycopg2',
+            # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
+            'NAME': 'asystem',  # Or path to database file if using sqlite3.
+            'USER': 'django_login',  # Not used with sqlite3.
+            'PASSWORD': '1209qwpo',  # Not used with sqlite3.
+            'HOST': '',  # Set to empty string for localhost. Not used with sqlite3.
+            'PORT': '',  # Set to empty string for default. Not used with sqlite3.
+        }
+    }
+
+if not DEBUG:
+    DATABASES = {
+        'default': config(
+            'DATABASE_URL',
+            cast=db_url
+        )
+    }
 
 # Password validation
 # https://docs.djangoproject.com/en/1.11/ref/settings/#auth-password-validators
