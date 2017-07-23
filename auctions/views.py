@@ -237,3 +237,24 @@ class BidderRegistrationForm(View):
 
 
 # class BidderRegistrationForm(View):
+
+
+def catalog_category_items(request, item_category_slug):
+    item_category = get_object_or_404(ItemCategory, slug=item_category_slug)
+    items_list = Item.objects.filter(published=True).filter(item_categories__slug=item_category_slug).order_by('run').order_by('lot').order_by('name')
+
+    paginator = Paginator(items_list, 3)
+    page = request.GET.get('page')
+
+    try:
+        items = paginator.page(page)
+    except PageNotAnInteger:
+        items = paginator.page(1)
+    except EmptyPage:
+        items = paginator.page(paginator.num_pages)
+
+    context = {
+        'item_category': item_category,
+        'items': items,
+    }
+    return render(request, 'category_items.html', context)

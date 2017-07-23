@@ -21,6 +21,7 @@ urlpatterns = [
     url(r'^auctions/$', views.catalog_auctions, name='auctions'),
 
     url(r'^categories/$', views.catalog_categories, name='categories'),
+    url(r'^categories/(?P<item_category_slug>[\w\-_]+)/$', views.catalog_category_items, name='category_items'),
 
     url(r'^items/(?P<item_id>[0-9]+)/$', views.catalog_item_details, name='item'),
     url(r'^items/$', views.catalog_items, name='items'),

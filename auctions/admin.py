@@ -68,6 +68,9 @@ class ItemAdmin(admin.ModelAdmin):
         ('Advanced options', {
             'fields': ('item_categories',)
         }),
+        ('Details', {
+            'fields': ('summary', 'description')
+        }),
         ('Timed auction settings', {
             'fields': ('auction_date_start', 'auction_date_end',)
         }),

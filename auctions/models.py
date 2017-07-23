@@ -64,6 +64,7 @@ class Item(models.Model):
     slug = SlugField(max_length=512, unique=True, db_index=True)
     lot = CharField(max_length=25, verbose_name='Lot Number')
     run = CharField(max_length=25, verbose_name='Run Number')
+    summary = CharField(max_length=128, blank=True, null=True, verbose_name='Summary')
     description = TextField(blank=True, null=True, verbose_name='Description')
     published = models.BooleanField(default=False, verbose_name='Published')
     auction_date_start = models.DateTimeField(blank=True, null=True)

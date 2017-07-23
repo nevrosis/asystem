@@ -7,9 +7,8 @@
 {% block jumbotron %}
     <div class="jumbotron jumbotron-fluid">
         <div class="container">
-            <h1 class="display-3">Categories</h1>
-
-            <p class="lead">Select an item category to filter tour research</p>
+            <h1 class="display-3">Available Categories</h1>
+            <p class="lead">Select an item category to filter your search</p>
         </div>
     </div>
 {% endblock %}
@@ -22,7 +21,7 @@
                 <div class="card">
 
                     <a href="/categories/{{ item_category.slug }}/"><img class="card-img-top img-fluid"
-                                                                         src="{% get_static_prefix %}category/{{ item_category.slug }}.jpg"
+                                                                         src="{% get_static_prefix %}base/img/category/{{ item_category.slug }}.jpg"
                                                                          alt="{{ item_category.name }}"></a>
 
                     <div class="card-block">
@@ -33,7 +32,8 @@
                             additional content. This content is a little bit longer.</p>
                     </div>
                     <div class="text-center">
-                        <a class="btn btn-primary" href="/categories/{{ item_category.slug }}/" role="button">View all available {{ item_category.name }}</a>
+                        <a class="btn btn-primary" href="/categories/{{ item_category.slug }}/" role="button">View all
+                            available {{ item_category.name }}</a>
                     </div>
                     <br>
                 </div>

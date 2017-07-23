@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ item_category.name|title }}{% endblock %}
+
+{% block jumbotron %}
+    <div class="jumbotron jumbotron-fluid" id="jumbotron-category-{{ item_category.slug }}">
+        <div class="container">
+            <h1 class="display-3">{{ item_category.name|title }}</h1>
+            <p class="lead">Feel free to browse the list of available auctions</p>
+        </div>
+    </div>
+{% endblock %}
+
+{% block content %}
+
+    {% include 'includes/items.html' with items=items %}
+
+{% endblock %}
