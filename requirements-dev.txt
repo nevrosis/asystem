@@ -14,6 +14,7 @@ django-storages==1.6.3
 django-uuslug==1.1.8
 djangorestframework==3.6.3
 docutils==0.13.1
+easy-thumbnails==2.4.1
 Flask==0.12.2
 itsdangerous==0.24
 Jinja2==2.9.6

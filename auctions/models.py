@@ -1,5 +1,6 @@
 from django.db import models
 from django.db.models import CharField, TextField, BooleanField, IntegerField, SlugField, ImageField
+from easy_thumbnails.fields import ThumbnailerImageField
 # from django.db.models.signals import pre_save
 # from django.utils.text import slugify
 # from uuslug import slugify
@@ -169,6 +170,7 @@ class ItemPicture(models.Model):
     modified_date = models.DateTimeField(auto_now=True)
     item = models.ForeignKey("Item", on_delete=models.CASCADE, blank=True, null=True, verbose_name='Item',
                              related_name="item_pictures")
+    picture2 = ThumbnailerImageField(upload_to='item', blank=True)
 
     # def __str__(self):
     #     return self.name

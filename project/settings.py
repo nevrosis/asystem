@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'easy_thumbnails',
     'storages',
     'auctions',
     'accounts',
@@ -98,24 +99,24 @@ WSGI_APPLICATION = 'project.wsgi.application'
 #    }
 # }
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-#         # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-#         'NAME': 'asystem',  # Or path to database file if using sqlite3.
-#         'USER': 'django_login',  # Not used with sqlite3.
-#         'PASSWORD': '1209qwpo',  # Not used with sqlite3.
-#         'HOST': '',  # Set to empty string for localhost. Not used with sqlite3.
-#         'PORT': '',  # Set to empty string for default. Not used with sqlite3.
-#     }
-# }
-
 DATABASES = {
-    'default': config(
-        'DATABASE_URL',
-        cast=db_url
-    )
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
+        'NAME': 'asystem',  # Or path to database file if using sqlite3.
+        'USER': 'django_login',  # Not used with sqlite3.
+        'PASSWORD': '1209qwpo',  # Not used with sqlite3.
+        'HOST': '',  # Set to empty string for localhost. Not used with sqlite3.
+        'PORT': '',  # Set to empty string for default. Not used with sqlite3.
+    }
 }
+
+# DATABASES = {
+#     'default': config(
+#         'DATABASE_URL',
+#         cast=db_url
+#     )
+# }
 
 # Password validation
 # https://docs.djangoproject.com/en/1.11/ref/settings/#auth-password-validators
@@ -160,9 +161,9 @@ AUTH_USER_MODEL = 'accounts.User'
 # http://django-storages.readthedocs.io/en/latest/backends/amazon-S3.html
 # DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 # STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
-# AWS_ACCESS_KEY_ID = 'YOUR_KEY'
-# AWS_SECRET_ACCESS_KEY = 'YOUR_SECRET'
-# AWS_STORAGE_BUCKET_NAME = 'BUCK'
+AWS_ACCESS_KEY_ID = config('AWS_ACCESS_KEY_ID')
+AWS_SECRET_ACCESS_KEY = config('AWS_SECRET_ACCESS_KEY')
+AWS_STORAGE_BUCKET_NAME = config('AWS_STORAGE_BUCKET_NAME')
 
 # boto3
 # pip install boto3
@@ -174,11 +175,20 @@ AUTH_USER_MODEL = 'accounts.User'
 
 # https://github.com/praekelt/django-recaptcha
 # pip install django-recaptcha
-RECAPTCHA_PUBLIC_KEY = '6LeTDigUAAAAAB1ETqVH8bpbPsn52LXPNU03dkHQ'
-RECAPTCHA_PRIVATE_KEY = '6LeTDigUAAAAAPL_PbQCqhr7BONjrog5A1W_XD-p'
-NOCAPTCHA = True
+RECAPTCHA_PUBLIC_KEY = config('RECAPTCHA_PUBLIC_KEY')
+RECAPTCHA_PRIVATE_KEY = config('RECAPTCHA_PRIVATE_KEY')
+NOCAPTCHA = config('NOCAPTCHA')
 
 
 # pip install django-debug-toolbar
 # https://django-debug-toolbar.readthedocs.io/en/stable/installation.html#internal-ips
-INTERNAL_IPS = '127.0.0.1'
+INTERNAL_IPS = config('INTERNAL_IPS')
+
+THUMBNAIL_ALIASES = {
+    '': {
+        'tn': {'size': (160, 120), 'crop': True},
+        'small': {'size': (320, 240), 'crop': True},
+        'medium': {'size': (640, 480), 'crop': True},
+        'large': {'size': (800, 600), 'crop': True},
+    },
+}

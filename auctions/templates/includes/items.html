@@ -1,3 +1,4 @@
+{% load thumbnail %}
 <div class="row justify-content-center align-items-center">
     <nav aria-label="Page navigation">
         <ul class="pagination">
@@ -35,6 +36,10 @@
                         <a href="/auctioneers/{{ item.auctioneer.slug }}/auctions/{{ item.auction.slug }}/items/{{ item.slug }}/"><img
                                 class="card-img-top img-fluid" src="{{ picture.picture.url }}"
                                 alt="{{ item.name }}"></a>
+                        {% if picture.picture2 %}
+                            <br>pic 2<br>
+                            <img class="card-img-top img-fluid" src="{{ picture.picture2|thumbnail_url:'large' }}" alt="{{ item.name }}">
+                        {% endif %}
                     {% endif %}
                 {% endfor %}
 
