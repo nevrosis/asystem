@@ -8,7 +8,7 @@ from auctions.models import (
     Bid,
     AuctioneerAddress,
     AuctioneerShippingAddress,
-)
+    AuctionType)
 
 admin.site.site_header = 'asystem admin'
 
@@ -131,9 +131,19 @@ class ItemPictureAdmin(admin.ModelAdmin):
     )
 
 
+class AuctionTypeAdmin(admin.ModelAdmin):
+    list_display = ('name',)
+    fieldsets = (
+        ("General", {
+            'fields': ('name',)
+        }),
+    )
+
+
 admin.site.register(Bid, BidAdmin)
 admin.site.register(Auction, AuctionAdmin)
 admin.site.register(Item, ItemAdmin)
 admin.site.register(Auctioneer, AuctioneerAdmin)
 admin.site.register(ItemCategory, ItemCategoryAdmin)
 admin.site.register(ItemPicture, ItemPictureAdmin)
+admin.site.register(AuctionType, AuctionTypeAdmin)

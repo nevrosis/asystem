@@ -14,7 +14,7 @@ class AuctioneerTestCase(TestCase):
         # print("auction.id = " + str(auction.id))
 
     def test_auctioneer_creation(self):
-        auctioneer = Auctioneer.objects.create(name="Auctioneer A")
+        Auctioneer.objects.create(name="Auctioneer A")
         auctioneer = Auctioneer.objects.get(name="Auctioneer A")
         self.assertEqual(1, auctioneer.id)
         self.assertEqual("Auctioneer A", auctioneer.name)

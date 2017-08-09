@@ -230,3 +230,20 @@ class AuctioneerShippingAddress(Address):
         verbose_name = "Shipping Address"
         verbose_name_plural = "Shipping Addresses"
         ordering = ('-primary',)
+
+
+class AuctionType(models.Model):
+    name = CharField(max_length=64, verbose_name='Name')
+    slug = SlugField(max_length=64, unique=True, db_index=True)
+    created_date = models.DateTimeField(auto_now_add=True)
+    modified_date = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.name
+
+    def save(self, *args, **kwargs):
+        self.slug = uuslug(self.name, instance=self)
+        super(AuctionType, self).save(*args, **kwargs)
+
+    class Meta:
+        ordering = ('name',)

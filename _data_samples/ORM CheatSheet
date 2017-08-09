@@ -1,0 +1,30 @@
+import project
+from auctions.models import Auctioneer, Item
+
+
+a = Auctioneer.objects.get(pk=1)
+a.name = "Auctioneer 1"
+a.save()
+
+i = Item.objects.create(name="item 1", auctioneer_id = 1)
+
+a = Auctioneer.objects.create(name = 'New Auctioneer')
+i = Item.objects.create(name="item 1", auctioneer = a)
+i.auctioneer
+
+ai = Item.objects.all().filter(auctioneer=a)
+
+
+one_entry = Auctioneer.objects.get(pk=1)
+
+result = Item.objects.filter(name__contains="item")
+result = Item.objects.filter(auctioneer__name__contains="New")
+
+ai = a.item_set.all()
+ai.count()
+
+
+for i in ai:
+    print(i)
+
+http://blog.etianen.com/blog/2013/06/08/django-querysets/
